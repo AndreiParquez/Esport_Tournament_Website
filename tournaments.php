@@ -25,8 +25,17 @@ if ($result->num_rows > 0) {
     }
 }
 
-$conn->close();
 
+
+$sql = "SELECT * FROM games"; // Query to fetch games
+$result = $conn->query($sql);
+
+$games = [];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $games[] = $row;
+    }
+}
 // Check if userId is set in the session
 if(isset($_SESSION['userId'])) {
     // Access user data from session
@@ -38,6 +47,7 @@ if(isset($_SESSION['userId'])) {
     header("Location: login.php");
     exit(); // Make sure to exit after redirection to prevent further execution
 }
+$conn->close();
 ?>
 
 
@@ -82,7 +92,7 @@ if(isset($_SESSION['userId'])) {
                 <i class="fa-regular fa-comments"></i>
             </a>
             <div class="text-gray-300 flex items-center">
-                <img src="<?php echo $imagePath; ?>" class="h-8 w-8 rounded-full border-2 border-gray-700 mr-2">
+                <img src="<?php echo $imagePath; ?>" class="h-8 w-8 object-cover rounded-full border-2 border-gray-700 mr-2">
                 <span><?php echo $username; ?></span>
             </div>
         </nav>
@@ -187,22 +197,36 @@ if(isset($_SESSION['userId'])) {
 
         <aside class="fixed-sidebar right-sidebar w-64 p-4 text-poppins z-10">
             <h1 class="text-sm font-bold mb-4">Tournaments Today</h1>
-            <?php if (!empty($tournamentsToday)) : ?>
-                <ul class="space-y-2">
-                    <?php foreach ($tournamentsToday as $tournament) : ?>
-                        <li class="bg-violet-700 p-3 rounded-lg shadow">
-                            <div class="flex items-center justify-between">
-                            <h2 class="text-xs font-bold"><?php echo htmlspecialchars($tournament['name']); ?></h2>
-                            <p class="text-gray-300 text-[8px]"><?php echo htmlspecialchars($tournament['start_date']); ?> to <?php echo htmlspecialchars($tournament['end_date']); ?></p>
-                            </div>
-                            <p class="text-gray-300 text-[10px]"><?php echo htmlspecialchars($tournament['description']); ?></p>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
-            <?php else : ?>
-                <p class="text-gray-400">No tournaments today.</p>
-            <?php endif; ?>
+            <div class="h-48 rounded-lg bg-zinc-800 p-2 overflow-auto">
+                <?php if (!empty($tournamentsToday)) : ?>
+                    <ul class="space-y-2">
+                        <?php foreach ($tournamentsToday as $tournament) : ?>
+                            <li class="bg-violet-700 p-3 rounded-lg shadow">
+                                <div class="flex items-center justify-between">
+                                    <h2 class="text-xs font-bold"><?php echo htmlspecialchars($tournament['name']); ?></h2>
+                                    <p class="text-gray-300 text-[8px]"><?php echo htmlspecialchars($tournament['start_date']); ?> to <?php echo htmlspecialchars($tournament['end_date']); ?></p>
+                                </div>
+                                <p class="text-gray-300 text-[10px]"><?php echo htmlspecialchars($tournament['description']); ?></p>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php else : ?>
+                    <p class="text-gray-400">No tournaments today.</p>
+                <?php endif; ?>
+            </div>
+
+            <h1 class="text-sm font-bold mb-4 mt-4">Games</h1>
+            
+            <!-- Games Logo Div with 3 Columns -->
+            <div class="grid grid-cols-3 gap-4">
+            <?php foreach ($games as $game) : ?>
+                <a href="game.php?id=<?php echo $game['id']; ?>">
+                    <img src="<?php echo $game['logo']; ?>" alt="<?php echo $game['name']; ?>" class="h-12 rounded-md transform scale-100 transition-transform duration-300 hover:scale-110">
+                </a>
+            <?php endforeach; ?>
+        </div>
         </aside>
+
     </div>
 
   <!-- Form Modal -->

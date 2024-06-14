@@ -9,11 +9,14 @@ $dbname = "event_management";
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
+
 // Check connection
 if ($conn->connect_error) {
     echo json_encode(['error' => 'Connection failed: ' . $conn->connect_error]);
     exit();
 }
+
+
 
 // Check if userId is set in the session
 if(isset($_SESSION['userId'])) {
@@ -23,6 +26,30 @@ if(isset($_SESSION['userId'])) {
 } else {
     header("Location: login.php");
     exit();
+}
+
+
+$today = date('Y-m-d');
+$sql = "SELECT * FROM events WHERE start_date <= '$today' AND end_date >= '$today'";
+$result = $conn->query($sql);
+
+$tournamentsToday = [];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $tournamentsToday[] = $row;
+    }
+}
+
+
+
+$sql = "SELECT * FROM games"; // Query to fetch games
+$result = $conn->query($sql);
+
+$games = [];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $games[] = $row;
+    }
 }
 
 // Fetch posts from the database
@@ -86,18 +113,20 @@ if ($result->num_rows > 0) {
         <!-- Sidebar -->
         <aside class="fixed-sidebar w-64 bg-zinc-900 p-4">
             <nav>
-                <ul class="space-y-2 text-sm text-poppins">
-                    <li class="px-4"><a href="#" class="flex items-center p-2 text-gray-300 hover:bg-gray-700 rounded"><div class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
+            <ul class="space-y-2 text-sm text-poppins">
+                    <li class="px-4"><a href="tournaments.php" class="flex items-center p-2 text-gray-300 hover:bg-violet-800 rounded"> <div class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
                         <i class="fa-solid fa-trophy"></i></div><span class="ml-3 font-bold">Tournaments</span></a></li>
-                    <li class="px-4"><a href="calendar.php" class="flex items-center p-2 text-gray-300 hover:bg-gray-700 rounded"><div class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
+                    <li class="px-4"><a href="social.php" class="flex items-center p-2 text-gray-300 hover:bg-violet-950 bg-violet-700 rounded"> <div class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
+                        <i class="fa-solid fa-earth-americas"></i></div><span class="ml-3 font-bold">Social</span></a></li>
+                    <li class="px-4"><a href="calendar.php" class="flex items-center p-2 text-gray-300 hover:bg-violet-950   rounded"> <div class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
                         <i class="fa-regular fa-calendar"></i></div><span class="ml-3 font-bold">Calendar</span></a></li>
-                    <li class="px-4"><a href="#" class="flex items-center p-2 text-gray-300 hover:bg-gray-700 rounded"><div class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
+                    <li class="px-4"><a href="#" class="flex items-center p-2 text-gray-300 hover:bg-violet-950  rounded"> <div class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
                         <i class="fa-solid fa-list-check"></i></i></div><span class="ml-3 font-bold">Leaderboards</span></a></li>
-                    <li class="px-4"><a href="#" class="flex items-center p-2 text-gray-300 hover:bg-gray-700 rounded"><div class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
+                    <li class="px-4"><a href="#" class="flex items-center p-2 text-gray-300 hover:bg-violet-950 rounded"> <div class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
                         <i class="fa-solid fa-gamepad"></i></div><span class="ml-3 font-bold">Games</span></a></li>
-                    <li class="px-4"><a href="#" class="flex items-center p-2 text-gray-300 hover:bg-gray-700 rounded"><div class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
+                    <li class="px-4"><a href="#" class="flex items-center p-2 text-gray-300 hover:bg-violet-950 rounded"> <div class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
                         <i class="fa-solid fa-gamepad"></i></div><span class="ml-3 font-bold">Players</span></a></li>
-                </ul>
+            </ul>
             </nav>
         </aside>
 
@@ -173,6 +202,38 @@ if ($result->num_rows > 0) {
 
             </div>
         </main>
+
+        <aside class="fixed-sidebar right-sidebar w-64 p-4 text-poppins z-10">
+            <h1 class="text-sm font-bold mb-4">Tournaments Today</h1>
+            <div class="h-48 rounded-lg bg-zinc-800 p-2 overflow-auto">
+                <?php if (!empty($tournamentsToday)) : ?>
+                    <ul class="space-y-2">
+                        <?php foreach ($tournamentsToday as $tournament) : ?>
+                            <li class="bg-violet-700 p-3 rounded-lg shadow">
+                                <div class="flex items-center justify-between">
+                                    <h2 class="text-xs font-bold"><?php echo htmlspecialchars($tournament['name']); ?></h2>
+                                    <p class="text-gray-300 text-[8px]"><?php echo htmlspecialchars($tournament['start_date']); ?> to <?php echo htmlspecialchars($tournament['end_date']); ?></p>
+                                </div>
+                                <p class="text-gray-300 text-[10px]"><?php echo htmlspecialchars($tournament['description']); ?></p>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php else : ?>
+                    <p class="text-gray-400">No tournaments today.</p>
+                <?php endif; ?>
+            </div>
+
+            <h1 class="text-sm font-bold mb-4 mt-4">Games</h1>
+            
+            <!-- Games Logo Div with 3 Columns -->
+            <div class="grid grid-cols-3 gap-4">
+            <?php foreach ($games as $game) : ?>
+                <a href="game.php?id=<?php echo $game['id']; ?>">
+                    <img src="<?php echo $game['logo']; ?>" alt="<?php echo $game['name']; ?>" class="h-12 rounded-md transform scale-100 transition-transform duration-300 hover:scale-110">
+                </a>
+            <?php endforeach; ?>
+        </div>
+        </aside>
     </div>
 
     <script>
