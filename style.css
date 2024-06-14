@@ -1,0 +1,167 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+@font-face {
+    font-family: 'MyCustomFont';
+    src: url('SwipeRaceDemo.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'MyCustomFont2';
+    src: url('Futuristic\ Armour.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.tajawal-regular {
+    font-family: "Tajawal", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+:root {
+--fc-border-color: rgba(255, 255, 255, 0);
+--fc-daygrid-event-dot-width: 5px;
+}
+/* Target the specific date elements */
+.fc-day {
+border: 1px solid #ccc; /* Example border styling */
+border-radius: 5px; /* Example border radius */
+}
+
+/* Apply additional styling for today's date */
+.fc-today {
+background-color: #f0f0f0; /* Example background color */
+}
+
+/* Apply styling for hovered dates */
+.fc-day:hover {
+background-color: #323232; /* Example background color on hover */
+cursor: pointer; /* Change cursor to pointer on hover */
+color: #ffffff;
+}
+.fc .fc-daygrid-day.fc-day-today {
+background-color: rgb(38, 39, 41);
+}
+
+.fc .fc-button-primary {
+background-color:rgba(0, 0, 0, 0.229);
+border-color: rgba(0, 0, 0, 0);
+color: var(--fc-button-text-color);
+}
+.fc .fc-button-group {
+display: inline-flex;
+position: relative;
+vertical-align: middle;
+font-size: 12px;
+}
+.fc .fc-button-primary{
+font-size: 12px;
+}
+
+.fc {
+    direction: ltr;
+    border-radius: 10px;
+}
+.fc .fc-col-header-cell-cushion {
+    display: inline-block;
+    padding: 2px 4px;
+    font-size: 13px;
+}
+.fc .fc-toolbar-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: #fff;
+}
+
+.fc-button-primary {
+    background-color: #3b82f6;
+    border-color: #3b82f6;
+}
+
+.fc-button-primary:hover {
+    background-color: #2563eb;
+    border-color: #2563eb;
+}
+.fc-scrollgrid {
+    border-color: red; /* Change 'red' to the desired color */
+    border-radius: 10px; /* Adjust the value as needed */
+    font-size: 2px;
+}
+
+.fc-daygrid-day-frame {
+    border-radius: 10px; /* Adjust the value as needed */
+    font-size: 13px;
+    font-weight: bold;
+}
+#calendar{
+    height: 600px;
+}
+.fc-event {
+background-color: #545353; /* Set the background color of the event */
+color: #ffffff; /* Set the text color of the event */
+border: 1px solid #5e687200; /* Set the border color and thickness of the event */
+border-radius: 20px; /* Set the border radius to make the edges rounded */
+padding: 10px; /* Add padding to the event to create space around the text */
+}
+
+
+.text-poppins{
+    font-family: "Poppins", sans-serif;
+}
+.text-sci{
+    font-family: 'MyCustomFont';
+}
+.character-spacing {
+    letter-spacing: 4px; /* Adjust the value as needed */
+    font-family: 'MyCustomFont2';
+}
+
+.tajawal-regular {
+    font-family: "Tajawal", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+body, html {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+}
+.content {
+    overflow-y: auto;
+    height: calc(100vh - 4rem); /* Adjust height based on the header */
+    padding-top: 4rem;
+}
+.fixed-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+.fixed-sidebar {
+    position: fixed;
+    top: 4rem; /* Adjust top based on the header */
+    bottom: 0;
+    z-index: 1000;
+    overflow-y: auto;
+}
+.main-content {
+    margin-left: 16rem; /* Adjust based on the sidebar width */
+    margin-right: 16rem; /* Adjust based on the sidebar width */
+    padding: 1rem;
+}
+.right-sidebar {
+    right: 0;
+}
+/* Hide scrollbar for Chrome, Safari and Opera */
+.content::-webkit-scrollbar, .fixed-sidebar::-webkit-scrollbar {
+    display: none;
+}
+/* Hide scrollbar for IE, Edge and Firefox */
+.content, .fixed-sidebar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+#profile_image{
+    display: none;
+}
