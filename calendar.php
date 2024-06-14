@@ -150,7 +150,7 @@ if(isset($_SESSION['userId'])) {
     </style>
     
 </head>
-<body class="bg-zinc-900 text-white font-sans">
+<body class="bg-zinc-900 text-white font-sans bg-[url('src/img/bg.jpg')]  bg-contain bg-repeat bg-center">
     <header class="fixed-header flex items-center justify-between p-3 px-10 bg-zinc-950">
         <div class="flex items-center space-x-4">
             <span class="text-sci text-sm ">T o r n e o</span>

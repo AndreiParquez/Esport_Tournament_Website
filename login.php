@@ -94,11 +94,15 @@ $conn->close();
     100% {
       width: 100%;
     }
-  }</style>
+    
+  }
+  
+  
+  </style>
 </head>
-<body class="bg-zinc-900 text-white text-poppins">
+<body class="bg-zinc-900 text-white font-sans bg-[url('src/img/bg.jpg')]  bg-contain bg-repeat bg-center">
     <div class="flex justify-center items-center h-screen">
-        <div class="w-[350px] flex flex-col p-4 relative items-center justify-center bg-zinc-800 border border-gray-500 shadow-lg rounded-2xl">
+        <div class="w-[350px] flex flex-col p-4 relative items-center justify-center bg-zinc-800 bg-opacity-75 border border-gray-500 shadow-lg rounded-2xl">
             <div class="m-4">
                 <div class="flex justify-center items-center">
                     <img src="src/img/video.png" class="h-14">

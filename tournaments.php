@@ -1,6 +1,32 @@
 <?php
 session_start();
 
+
+
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "event_management";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$today = date('Y-m-d');
+$sql = "SELECT * FROM events WHERE start_date <= '$today' AND end_date >= '$today'";
+$result = $conn->query($sql);
+
+$tournamentsToday = [];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $tournamentsToday[] = $row;
+    }
+}
+
+$conn->close();
+
 // Check if userId is set in the session
 if(isset($_SESSION['userId'])) {
     // Access user data from session
@@ -36,14 +62,15 @@ if(isset($_SESSION['userId'])) {
         }
     </style>
 </head>
-<body class="bg-zinc-900 text-white font-sans">
+<body class="bg-zinc-900 text-white font-sans bg-[url('src/img/bg.jpg')]  bg-contain bg-repeat bg-center">
+
     <header class="fixed-header flex items-center justify-between p-3 px-10 bg-zinc-950">
         <div class="flex items-center">
             <div class="flex justify-center items-center space-x-2">
                 <img src="src/img/video.png" class="h-7">
                 <div>
                     <h2 class="text-sci text-xs">Torneo</h2>
-                    <p class="text-[9px] text-center character-spacing">No Pain No Game</p>
+                    <p class="text-[9px] text-center text-violet-700 character-spacing">No Pain No Game</p>
                 </div>
             </div>
         </div>
@@ -62,20 +89,20 @@ if(isset($_SESSION['userId'])) {
     </header>
     <div class="flex">
         <!-- Sidebar -->
-        <aside class="fixed-sidebar w-64 bg-zinc-900 p-4">
+        <aside class="fixed-sidebar w-64 p-4 z-10">
             <nav>
                 <ul class="space-y-2 text-sm text-poppins">
-                    <li class="px-4"><a href="#" class="flex items-center p-2 text-gray-300 hover:bg-gray-700 rounded"> <div class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
+                    <li class="px-4"><a href="#" class="flex items-center p-2 text-gray-300 hover:bg-violet-800 bg-violet-700 rounded"> <div class="text-gray-300 hover:text-white border-2 border-violet-900 rounded-full w-8 h-8 flex items-center justify-center">
                         <i class="fa-solid fa-trophy"></i></div><span class="ml-3 font-bold">Tournaments</span></a></li>
-                    <li class="px-4"><a href="social.php" class="flex items-center p-2 text-gray-300 hover:bg-gray-700 rounded"> <div class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
+                    <li class="px-4"><a href="social.php" class="flex items-center p-2 text-gray-300 hover:bg-violet-950 rounded"> <div class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
                         <i class="fa-solid fa-earth-americas"></i></div><span class="ml-3 font-bold">Social</span></a></li>
-                    <li class="px-4"><a href="calendar.php" class="flex items-center p-2 text-gray-300 hover:bg-gray-700 rounded"> <div class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
+                    <li class="px-4"><a href="calendar.php" class="flex items-center p-2 text-gray-300 hover:bg-violet-950 rounded"> <div class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
                         <i class="fa-regular fa-calendar"></i></div><span class="ml-3 font-bold">Calendar</span></a></li>
-                    <li class="px-4"><a href="#" class="flex items-center p-2 text-gray-300 hover:bg-gray-700 rounded"> <div class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
+                    <li class="px-4"><a href="#" class="flex items-center p-2 text-gray-300 hover:bg-violet-950 rounded"> <div class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
                         <i class="fa-solid fa-list-check"></i></i></div><span class="ml-3 font-bold">Leaderboards</span></a></li>
-                    <li class="px-4"><a href="#" class="flex items-center p-2 text-gray-300 hover:bg-gray-700 rounded"> <div class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
+                    <li class="px-4"><a href="#" class="flex items-center p-2 text-gray-300 hover:bg-violet-950 rounded"> <div class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
                         <i class="fa-solid fa-gamepad"></i></div><span class="ml-3 font-bold">Games</span></a></li>
-                    <li class="px-4"><a href="#" class="flex items-center p-2 text-gray-300 hover:bg-gray-700 rounded"> <div class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
+                    <li class="px-4"><a href="#" class="flex items-center p-2 text-gray-300 hover:bg-violet-950 rounded"> <div class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
                         <i class="fa-solid fa-gamepad"></i></div><span class="ml-3 font-bold">Players</span></a></li>
                 </ul>
             </nav>
@@ -87,7 +114,7 @@ if(isset($_SESSION['userId'])) {
 
         <div class="w-full max-w-4xl mx-auto slider-container relative mb-5">
         <div class="slider">
-            <div class="slider-item flex items-center justify-center bg-zinc-900 p-6">
+            <div class="slider-item flex items-center justify-center  p-6">
                 <div class="text-center">
                     <img src="src/img/ling.png" alt="Image 1" class=" h-96 absolute bottom-0 left-0 z-20">
                     <div class="h-[340px] bg-blue-800 rounded-lg w-[800px] text-right p-7 pl-[450px] pt-10 bg-opacity-75 relative ">
@@ -97,7 +124,7 @@ if(isset($_SESSION['userId'])) {
                 </div>
                 </div>
             </div>
-            <div class="slider-item flex items-center justify-center bg-zinc-900 p-6">
+            <div class="slider-item flex items-center justify-center  p-6">
 
                 <div class="text-center">
                     <img src="src/img/cod.png" alt="Image 1" class=" h-96 absolute  left-[1420px] z-20">
@@ -108,7 +135,7 @@ if(isset($_SESSION['userId'])) {
                     </div>
                 </div>
             </div>
-            <div class="slider-item flex items-center justify-center bg-zinc-900 p-6">
+            <div class="slider-item flex items-center justify-center  p-6">
             
 
                 <div class="text-center ">
@@ -126,8 +153,8 @@ if(isset($_SESSION['userId'])) {
             </div>
             
         </div>
-        <button id="prevButton" class="absolute top-1/2 left-0 transform -translate-y-1/2 bg-gray-700 bg-opacity-25 rounded-full text-sm text-white px-4 py-2 z-20">Prev</button>
-        <button id="nextButton" class="absolute top-1/2 right-0 transform -translate-y-1/2 bg-gray-700 bg-opacity-25 rounded-full text-sm text-white px-4 py-2 z-20">Next</button>
+        <button id="prevButton" class="absolute top-1/2 left-0 transform -translate-y-1/2 bg-gray-700 bg-opacity-25 rounded-full text-sm text-white px-4 py-2 z-20 hover:bg-opacity-75">Prev</button>
+        <button id="nextButton" class="absolute top-1/2 right-0 transform -translate-y-1/2 bg-gray-700 bg-opacity-25 rounded-full text-sm text-white px-4 py-2 z-20 hover:bg-opacity-75">Next</button>
     </div>
 
 
@@ -158,51 +185,54 @@ if(isset($_SESSION['userId'])) {
 
         </main>
 
-        <aside class="fixed-sidebar right-sidebar w-64 bg-zinc-900 p-4 text-poppins">
-            <h1>Filter by</h1>
-            <div class="flex justify-between mb-4">
-                <div class="relative inline-block text-left">
-                    <div>
-                        <button onclick="toggleDropdown()" type="button" class="inline-flex justify-center w-full border border-gray-300 shadow-sm px-4 py-2 text-xs rounded-full font-medium text-white mt-4  focus:outline-none" id="menu-button" aria-expanded="true" aria-haspopup="true">
-                            Options
-                            <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                <path fill-rule="evenodd" d="M10 3a1 1 0 01.707.293l7 7a1 1 0 01-1.414 1.414L10 5.414l-6.293 6.293a1 1 0 01-1.414-1.414l7-7A1 1 0 0110 3z" clip-rule="evenodd"/>
-                            </svg>
-                        </button>
-                    </div>
-                    <div id="dropdown-menu" class="hidden absolute right-10 mt-2 w-56 rounded-md shadow-lg  ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="">
-                        <div class="py-1" role="none z-50">
-                            <button class="text-white block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem" tabindex="2">This week</button>
-                            <button class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem" tabindex="-1">This month</button>
-                            <button class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem" tabindex="-1">This year</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <aside class="fixed-sidebar right-sidebar w-64 p-4 text-poppins z-10">
+            <h1 class="text-sm font-bold mb-4">Tournaments Today</h1>
+            <?php if (!empty($tournamentsToday)) : ?>
+                <ul class="space-y-2">
+                    <?php foreach ($tournamentsToday as $tournament) : ?>
+                        <li class="bg-violet-700 p-3 rounded-lg shadow">
+                            <div class="flex items-center justify-between">
+                            <h2 class="text-xs font-bold"><?php echo htmlspecialchars($tournament['name']); ?></h2>
+                            <p class="text-gray-300 text-[8px]"><?php echo htmlspecialchars($tournament['start_date']); ?> to <?php echo htmlspecialchars($tournament['end_date']); ?></p>
+                            </div>
+                            <p class="text-gray-300 text-[10px]"><?php echo htmlspecialchars($tournament['description']); ?></p>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            <?php else : ?>
+                <p class="text-gray-400">No tournaments today.</p>
+            <?php endif; ?>
         </aside>
     </div>
 
   <!-- Form Modal -->
 <div id="bookingModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-    <div class="bg-white rounded-lg p-6 max-w-md">
-        <h2 class="text-lg font-bold mb-4">Enter Your Information</h2>
+    <div class="backdrop-blur-sm bg-zinc-800 bg-opacity-60 rounded-lg p-6 w-[400px]">
+    <div class="mb-3">
+                <p class="text-xs text-violet-700 -mb-2">Book</p>
+                <div class="flex items-center">
+                <h1 class="rounded-full text-md font-bold text-center flex justify-center items-center h-10 ">Enter your credentials</h1>
+                
+
+                </div>
+                </div>
         <form id="bookingForm">
             <div class="mb-4">
-                <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-                <input type="text" id="name" name="name" class="mt-1 p-2 border rounded-md w-full" required>
+                <label for="name" class="block text-xs font-medium text-gray-200">Name</label>
+                <input type="text" id="name" name="name" class="mt-1 p-2 border border-zinc-700 bg-zinc-800 text-xs bg-opacity-50 text-white rounded-md w-full" placeholder="John Doe" required>
             </div>
             <div class="mb-4">
-                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                <input type="email" id="email" name="email" class="mt-1 p-2 border rounded-md w-full" required>
+                <label for="email" class="block text-xs font-medium text-gray-200">Email</label>
+                <input type="email" id="email" name="email" class="mt-1 p-2 border border-zinc-700 bg-zinc-800 text-xs bg-opacity-50 text-white rounded-md w-full" placeholder="example@gmail.com" required>
             </div>
             <div class="mb-4">
-                <label for="phone" class="block text-sm font-medium text-gray-700">Phone</label>
-                <input type="tel" id="phone" name="phone" class="mt-1 p-2 border rounded-md w-full" required>
+                <label for="phone" class="block text-xs font-medium text-gray-200">Phone</label>
+                <input type="tel" id="phone" name="phone" class="mt-1 p-2 border border-zinc-700 bg-zinc-800 bg-opacity-50 text-xs text-white rounded-md w-full" placeholder="+63..." required>
             </div>
             <input type="hidden" id="eventId" name="eventId"> <!-- Hidden field to store event ID -->
             <div class="flex justify-end">
-                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Book</button>
-                <button type="button" class="ml-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded" onclick="closeBookingModal()">Cancel</button>
+                <button type="submit" class="bg-violet-700 hover:bg-violet-800 text-white font-bold py-2 text-xs px-4 rounded">Book</button>
+                <button type="button" class="ml-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold text-xs py-2 px-4 rounded" onclick="closeBookingModal()">Cancel</button>
             </div>
         </form>
     </div>
@@ -328,13 +358,28 @@ if(isset($_SESSION['userId'])) {
         participantCount.className = 'text-gray-400 text-xs';
 
         // Set the inner HTML with both the participant count and the icon
-        participantCount.innerHTML = `<p class="text-[10px]">Participants</p>
+        participantCount.innerHTML = `
+
+            <div class="flex space-x-5">
+        
+            <div>
+            <p class="text-[9px]">Prizepool</p>
+                <i class="fa-solid fa-award text-green-500"></i>
+            <span class="font-bold text-white">₱ ${event.prize_pool}</span> 
+            </div>
+            <div>
+            <p class="text-[9px]">Participants</p>
                 <i class="fa-solid fa-users text-yellow-500"></i>
             <span class="font-bold text-white">${event.participants}</span> 
+            </div>
+            </div>
+
+            
         
         `;
 
-participants.appendChild(participantCount);
+        participants.appendChild(participantCount);
+       
 
 
         const joinButton = document.createElement('button');

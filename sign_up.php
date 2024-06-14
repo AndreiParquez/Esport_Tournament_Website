@@ -137,9 +137,9 @@ $conn->close();
         }
     </style>
 </head>
-<body class="bg-zinc-900 text-white text-poppins">
+<body class="bg-zinc-900 text-white font-sans bg-[url('src/img/bg.jpg')]  bg-contain bg-repeat bg-center">
     <div class="flex justify-center items-center h-screen">
-        <div class="w-[350px] flex flex-col p-2 relative items-center justify-center bg-zinc-800 border border-gray-500 shadow-lg rounded-2xl">
+        <div class="w-[350px] flex flex-col p-2 relative items-center justify-center opacity-75 bg-zinc-800 border border-gray-500 shadow-lg rounded-2xl">
             <div id="cover" class="cover"></div>
             <div class="profile-container">
                 <div class="m-4">

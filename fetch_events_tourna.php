@@ -37,7 +37,8 @@ if ($result->num_rows > 0) {
             'end' => $end,
             'description_text' => $row['description'],
             'image' => $row['thumbnail'],
-            'participants' => $row['participant_count']
+            'participants' => $row['participant_count'],
+            'prize_pool' => $row['prizepool']
         );
     }
 } else {

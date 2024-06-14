@@ -58,7 +58,7 @@ if ($result->num_rows > 0) {
         }
     </style>
 </head>
-<body class="bg-zinc-900 text-white font-sans">
+<body class="bg-zinc-900 text-white font-sans bg-[url('src/img/bg.jpg')]  bg-contain bg-repeat bg-center">
     <header class="fixed-header flex items-center justify-between p-3 px-10 bg-zinc-950">
         <div class="flex items-center">
             <div class="flex justify-center items-center space-x-2">
