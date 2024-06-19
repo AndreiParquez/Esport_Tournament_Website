@@ -86,28 +86,27 @@ if ($result->num_rows > 0) {
     </style>
 </head>
 <body class="bg-zinc-900 text-white font-sans bg-[url('src/img/bg.jpg')]  bg-contain bg-repeat bg-center">
-    <header class="fixed-header flex items-center justify-between p-3 px-10 bg-zinc-950">
+<header class="fixed-header flex items-center justify-between p-3 px-10 bg-zinc-950">
         <div class="flex items-center">
             <div class="flex justify-center items-center space-x-2">
-                <img src="src/img/video.png" class="h-7">
                 <div>
                     <h2 class="text-sci text-xs">Torneo</h2>
-                    <p class="text-[9px] text-center character-spacing">No Pain No Game</p>
+                    <p class="text-[9px] text-center text-violet-700 character-spacing">No Pain No Game</p>
                 </div>
             </div>
         </div>
         <nav class="flex space-x-6">
-            <a href="#" class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
-                <i class="fa-regular fa-bell"></i>
-            </a>
-            <a href="#" class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
-                <i class="fa-regular fa-comments"></i>
-            </a>
-            <div class="text-gray-300 flex items-center">
-                <img src="<?php echo $imagePath; ?>" class="h-8 w-8 rounded-full border-2 object-cover border-gray-700 mr-2">
-                <span><?php echo $username; ?></span>
-            </div>
-        </nav>
+        <a href="#" class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
+            <i class="fa-regular fa-bell"></i>
+        </a>
+        <a href="#" class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
+            <i class="fa-regular fa-comments"></i>
+        </a>
+        <div class="text-gray-300 flex items-center">
+            <img src="<?php echo $imagePath; ?>" id="userImage" class="h-8 w-8 object-cover rounded-full shadow-[0_4px_10px_rgba(124,58,237,0.5)] border-2 border-gray-700 mr-2 cursor-pointer">
+            <span><?php echo $username; ?></span>
+        </div>
+    </nav>
     </header>
     <div class="flex">
         <!-- Sidebar -->
@@ -219,7 +218,7 @@ if ($result->num_rows > 0) {
                         <?php endforeach; ?>
                     </ul>
                 <?php else : ?>
-                    <p class="text-gray-400">No tournaments today.</p>
+                    <p class="text-gray-400 text-xs">No tournaments today.</p>
                 <?php endif; ?>
             </div>
 

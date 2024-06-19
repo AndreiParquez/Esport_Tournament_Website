@@ -1,6 +1,43 @@
 <?php
 session_start();
 
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "event_management";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+
+
+
+$today = date('Y-m-d');
+$sql = "SELECT * FROM events WHERE start_date <= '$today' AND end_date >= '$today'";
+$result = $conn->query($sql);
+
+$tournamentsToday = [];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $tournamentsToday[] = $row;
+    }
+}
+
+
+
+$sql = "SELECT * FROM games"; // Query to fetch games
+$result = $conn->query($sql);
+
+$games = [];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $games[] = $row;
+    }
+}
+
 // Check if userId is set in the session
 if(isset($_SESSION['userId'])) {
     // Access user data from session
@@ -23,9 +60,35 @@ if(isset($_SESSION['userId'])) {
     <title>Tournament Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://kit.fontawesome.com/1dbbe6d297.js" crossorigin="anonymous"></script>
+    
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.js'></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+@font-face {
+    font-family: 'MyCustomFont';
+    src: url('SwipeRaceDemo.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'MyCustomFont2';
+    src: url('Futuristic\ Armour.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.text-poppins{
+    font-family: "Poppins", sans-serif;
+}
+.text-sci{
+    font-family: 'MyCustomFont';
+}
+.character-spacing {
+    letter-spacing: 5px; /* Adjust the value as needed */
+    font-family: 'MyCustomFont2';
+}
 
         .tajawal-regular {
             font-family: "Tajawal", sans-serif;
@@ -62,6 +125,16 @@ if(isset($_SESSION['userId'])) {
             border-color: rgba(0, 0, 0, 0);
             color: var(--fc-button-text-color);
         }
+        .fc .fc-button-primary:not(:disabled).fc-button-active, .fc .fc-button-primary:not(:disabled):active {
+            background-color: rgb(109 40 217);
+            border-color: rgb(109 40 217);
+    color: var(--fc-button-text-color);
+}
+.fc .fc-button-primary:disabled {
+    background-color: rgb(109 40 217);
+    border-color: rgb(109 40 217);
+    color: var(--fc-button-text-color);
+}
         .fc .fc-button-group {
             display: inline-flex;
             position: relative;
@@ -150,42 +223,47 @@ if(isset($_SESSION['userId'])) {
     </style>
     
 </head>
-<body class="bg-zinc-900 text-white font-sans bg-[url('src/img/bg.jpg')]  bg-contain bg-repeat bg-center">
-    <header class="fixed-header flex items-center justify-between p-3 px-10 bg-zinc-950">
-        <div class="flex items-center space-x-4">
-            <span class="text-sci text-sm ">T o r n e o</span>
+<body class="bg-zinc-900 text-white text-poppins bg-[url('src/img/bg.jpg')]  bg-contain bg-repeat bg-center">
+<header class="fixed-header flex items-center justify-between p-3 px-10 bg-zinc-950">
+        <div class="flex items-center">
+            <div class="flex justify-center items-center space-x-2">
+                <div>
+                    <h2 class="text-sci text-xs">Torneo</h2>
+                    <p class="text-[9px] text-center text-violet-700 character-spacing">No Pain No Game</p>
+                </div>
+            </div>
         </div>
         <nav class="flex space-x-6">
-            <a href="#" class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
-                <i class="fa-regular fa-bell"></i>
-            </a>
-            <a href="#" class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
-                <i class="fa-regular fa-comments"></i>
-            </a>
-            <div class="text-gray-300 flex items-center">
-                <img src="<?php echo $imagePath; ?>" class="h-8 w-8 rounded-full border-2 border-gray-700 mr-2">
-                <span><?php echo $username; ?></span>
-            </div>
-        </nav>
+        <a href="#" class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
+            <i class="fa-regular fa-bell"></i>
+        </a>
+        <a href="#" class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
+            <i class="fa-regular fa-comments"></i>
+        </a>
+        <div class="text-gray-300 flex items-center">
+            <img src="<?php echo $imagePath; ?>" id="userImage" class="h-8 w-8 object-cover rounded-full shadow-[0_4px_10px_rgba(124,58,237,0.5)] border-2 border-gray-700 mr-2 cursor-pointer">
+            <span><?php echo $username; ?></span>
+        </div>
+    </nav>
     </header>
     <div class="flex">
         <!-- Sidebar -->
-        <aside class="fixed-sidebar w-64 bg-zinc-900 p-4">
+        <aside class="fixed-sidebar w-64 p-4 z-10">
             <nav>
-            <ul class="space-y-2 text-sm text-poppins">
-                    <li class="px-4"><a href="tournaments.php" class="flex items-center p-2 text-gray-300 hover:bg-violet-800 rounded"> <div class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
-                        <i class="fa-solid fa-trophy"></i></div><span class="ml-3 font-bold">Tournaments</span></a></li>
+                <ul class="space-y-2 text-sm text-poppins">
+                    <li class="px-4"><a href="tournaments.php" class="flex items-center p-2 text-gray-300 hover:bg-violet-800  rounded"> <div class="text-gray-300 hover:text-white border-2 border-violet-900 rounded-full w-8 h-8 flex items-center justify-center">
+                        <i class="fa-solid fa-trophy shadow-[0_4px_10px_rgba(124,58,237,0.5)]"></i></div><span class="ml-3 font-bold">Tournaments</span></a></li>
                     <li class="px-4"><a href="social.php" class="flex items-center p-2 text-gray-300 hover:bg-violet-950  rounded"> <div class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
-                        <i class="fa-solid fa-earth-americas"></i></div><span class="ml-3 font-bold">Social</span></a></li>
-                    <li class="px-4"><a href="calendar.php" class="flex items-center p-2 text-gray-300 hover:bg-violet-950 bg-violet-700  rounded"> <div class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
-                        <i class="fa-regular fa-calendar"></i></div><span class="ml-3 font-bold">Calendar</span></a></li>
+                        <i class="fa-solid fa-earth-americas shadow-[0_4px_10px_rgba(124,58,237,0.5)]"></i></div><span class="ml-3 font-bold">Social</span></a></li>
+                    <li class="px-4"><a href="calendar.php" class="flex items-center p-2 text-gray-300 hover:bg-violet-950 bg-violet-700 rounded"> <div class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
+                        <i class="fa-regular fa-calendar shadow-[0_4px_10px_rgba(124,58,237,0.5)]"></i></div><span class="ml-3 font-bold">Calendar</span></a></li>
                     <li class="px-4"><a href="#" class="flex items-center p-2 text-gray-300 hover:bg-violet-950 rounded"> <div class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
-                        <i class="fa-solid fa-list-check"></i></i></div><span class="ml-3 font-bold">Leaderboards</span></a></li>
+                        <i class="fa-solid fa-list-check shadow-[0_4px_10px_rgba(124,58,237,0.5)]"></i></i></div><span class="ml-3 font-bold">Leaderboards</span></a></li>
                     <li class="px-4"><a href="#" class="flex items-center p-2 text-gray-300 hover:bg-violet-950 rounded"> <div class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
-                        <i class="fa-solid fa-gamepad"></i></div><span class="ml-3 font-bold">Games</span></a></li>
+                        <i class="fa-solid fa-gamepad shadow-[0_4px_10px_rgba(124,58,237,0.5)]"></i></div><span class="ml-3 font-bold">Games</span></a></li>
                     <li class="px-4"><a href="#" class="flex items-center p-2 text-gray-300 hover:bg-violet-950 rounded"> <div class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
-                        <i class="fa-solid fa-gamepad"></i></div><span class="ml-3 font-bold">Players</span></a></li>
-            </ul>
+                        <i class="fa-solid fa-gamepad shadow-[0_4px_10px_rgba(124,58,237,0.5)]"></i></div><span class="ml-3 font-bold">Players</span></a></li>
+                </ul>
             </nav>
         </aside>
 
@@ -194,27 +272,36 @@ if(isset($_SESSION['userId'])) {
             <div id="calendar"></div>
         </main>
 
-        <aside class="fixed-sidebar right-sidebar w-64 bg-zinc-900 p-4 text-poppins">
-            <h1>Filter by</h1>
-            <div class="flex justify-between mb-4">
-                <div class="relative inline-block text-left">
-                    <div>
-                        <button onclick="toggleDropdown()" type="button" class="inline-flex justify-center w-full border border-gray-300 shadow-sm px-4 py-2 text-xs rounded-full font-medium text-white mt-4  focus:outline-none" id="menu-button" aria-expanded="true" aria-haspopup="true">
-                            Options
-                            <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                <path fill-rule="evenodd" d="M10 3a1 1 0 01.707.293l7 7a1 1 0 01-1.414 1.414L10 5.414l-6.293 6.293a1 1 0 01-1.414-1.414l7-7A1 1 0 0110 3z" clip-rule="evenodd"/>
-                            </svg>
-                        </button>
-                    </div>
-                    <div id="dropdown-menu" class="hidden  absolute right-10 mt-2 w-56 rounded-md shadow-lg  ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="">
-                        <div class="py-1" role="none z-50">
-                            <button class="text-white block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem" tabindex="2">This weekdndjkenfjk</button>
-                            <button class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem" tabindex="-1">This month</button>
-                            <button class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem" tabindex="-1">This year</button>
-                        </div>
-                    </div>
-                </div>
+        <aside class="fixed-sidebar right-sidebar w-64 p-4 text-poppins z-10">
+            <h1 class="text-sm font-bold mb-4">Tournaments Today</h1>
+            <div class="h-48 rounded-lg bg-zinc-800 p-2 overflow-auto">
+                <?php if (!empty($tournamentsToday)) : ?>
+                    <ul class="space-y-2">
+                        <?php foreach ($tournamentsToday as $tournament) : ?>
+                            <li class="bg-violet-700 p-3 rounded-lg shadow">
+                                <div class="flex items-center justify-between">
+                                    <h2 class="text-xs font-bold"><?php echo htmlspecialchars($tournament['name']); ?></h2>
+                                    <p class="text-gray-300 text-[8px]"><?php echo htmlspecialchars($tournament['start_date']); ?> to <?php echo htmlspecialchars($tournament['end_date']); ?></p>
+                                </div>
+                                <p class="text-gray-300 text-[10px]"><?php echo htmlspecialchars($tournament['description']); ?></p>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php else : ?>
+                    <p class="text-gray-400 text-xs">No tournaments today.</p>
+                <?php endif; ?>
             </div>
+
+            <h1 class="text-sm font-bold mb-4 mt-4">Games</h1>
+            
+            <!-- Games Logo Div with 3 Columns -->
+            <div class="grid grid-cols-3 gap-4">
+            <?php foreach ($games as $game) : ?>
+                <a href="game.php?id=<?php echo $game['id']; ?>">
+                    <img src="<?php echo $game['logo']; ?>" alt="<?php echo $game['name']; ?>" class="h-12 rounded-md transform hover:shadow-[0_4px_10px_rgba(124,58,237,0.5)] scale-100 transition-transform duration-300 hover:scale-110">
+                </a>
+            <?php endforeach; ?>
+        </div>
         </aside>
     </div>
 
@@ -227,8 +314,8 @@ if(isset($_SESSION['userId'])) {
                 </svg>
             </button>
             <div class="flex justify-center space-x-4 text-poppins">
-                <img src="src/img/event.png" class="h-6">
-                <h2 class="text-lg mb-6 text-white">Create Event</h2>
+                <img src="src/img/event.png" class="h-4">
+                <h2 class="text-sm mb-6 text-white">Create Event</h2>
             </div>
             <form id="eventForm">
     <div class="mb-4">
@@ -268,7 +355,7 @@ if(isset($_SESSION['userId'])) {
         <input type="file" id="thumbnail" name="thumbnail" class="mt-1 block w-full shadow-sm sm:text-xs border border-zinc-700 bg-zinc-800 bg-opacity-50 text-white py-2 rounded-md focus:ring focus:ring-blue-500" accept="image/*" required>
     </div>
     <div class="flex justify-center">
-        <button type="submit" class="flex items-center justify-center bg-zinc-700 text-white px-4 py-2 rounded-full hover:bg-blue-600 focus:outline-none w-1/2 :ring focus:ring-blue-700">
+        <button type="submit" class="flex items-center justify-center bg-zinc-700 text-white px-4 py-2 rounded-full hover:bg-violet-700 text-xs focus:outline-none w-1/2 :ring focus:ring-blue-700">
             <span>Save Event</span>
             <i class="fa-solid fa-right-to-bracket ml-2"></i>
         </button>

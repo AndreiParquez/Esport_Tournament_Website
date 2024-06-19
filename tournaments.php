@@ -195,7 +195,7 @@ $conn->close();
 .m-ticket > .movie-details > .poster{
   width:100px;
   height:120px;
-  object-fit:cover;
+  
   border-radius:8px;
   box-shadow:0 0 10px #888;
 }
@@ -410,7 +410,7 @@ $conn->close();
                 <p class="text-xs ml-5 -mb-2">Raging</p>
                 <div class="flex items-center">
                 <h1 class="rounded-full text-md font-bold text-center flex justify-center items-center h-10 px-5">Live on Youtube</h1>
-                <span class="text-[10px] bg-red-500 text-black px-3 py-1  rounded-full">Live</span>
+                <span class="text-[10px] bg-red-500 text-white px-4 py-1  rounded-full">Live</span>
 
                 </div>
                 </div>
@@ -431,13 +431,13 @@ $conn->close();
 
 
 
-            <div class="flex w-[1000px] justify-between px-10">
+            <div class="flex w-[1000px] justify-between mt-5 px-10">
                 <div class="flex">
                 <div>
                 <p class="text-xs ml-5 -mb-2">Trending</p>
                 <div class="flex items-center">
                 <h1 class="rounded-full text-md font-bold text-center flex justify-center items-center h-10 px-5">Latest Tournaments</h1>
-                <span class="text-[10px] bg-lime-500 text-black px-3 py-1  rounded-full">Coming Soon</span>
+                <span class="text-[10px] bg-lime-500 text-white  px-3 py-1  rounded-full">Coming Soon</span>
 
                 </div>
                 </div>
@@ -449,7 +449,7 @@ $conn->close();
             </div>
             </div>
             
-            <div class="grid px-14 grid-cols-4 gap-3" id="eventContainer">
+            <div class="grid px-14 grid-cols-4 gap-3 mt-5" id="eventContainer">
                 <!-- Event cards will be inserted here -->
             </div>
 
@@ -471,7 +471,7 @@ $conn->close();
                         <?php endforeach; ?>
                     </ul>
                 <?php else : ?>
-                    <p class="text-gray-400">No tournaments today.</p>
+                    <p class="text-gray-400 text-xs">No tournaments today.</p>
                 <?php endif; ?>
             </div>
 
@@ -559,12 +559,11 @@ $conn->close();
 </div>
 
 
-<div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+<div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center text-poppins justify-center z-50 hidden">
     <div class="bg-zinc-800  rounded-lg p-6 w-[800px]">
         <div class="mb-3">
-        <button type="button" class="bg-violet-700 hover:bg-violet-800 text-white font-bold py-2 text-xs px-4 rounded" onclick="closeSuccessModal()">Close</button>
 
-            <p class="text-xs text-700 -mb-2">Booking Successful</p>
+            <p class="text-xs text-poppins text-700 text-violet-700 -mb-2">Booking Successful</p>
             <div class="flex items-center">
                 <h1 class="rounded-full text-md font-bold text-center flex justify-center items-center h-10 ">Booking Information</h1>
             </div>
@@ -575,7 +574,7 @@ $conn->close();
             <div class="m-ticket" id="m-ticket">
                 <p class="m">Torneo - Ticket</p>
                 <div class="movie-details">
-                    <img src="" id="eventImg" class="poster">
+                    <img src="" id="eventImg" style="object-fit:cover" class="poster ">
                     <div class="movie text-black">
                         <h4 id="t-title"></h4>
                         <p id="t-title-eventid" class="-mtop-10"></p>
@@ -584,7 +583,7 @@ $conn->close();
                     </div>
                 </div>
                 <div class="info">
-                    Tap for support, details & more actions
+                    Just show this e-ticket in the venue
                 </div>
                 <div class="ticket-details">
                     <img src="src/img/qr.png" class="scan">
@@ -601,6 +600,8 @@ $conn->close();
         </div>
         <div class="flex justify-center space-x-10 mt-4">
             <button type="button" class="bg-violet-700 hover:bg-violet-800 text-white font-bold py-2 text-xs px-4 rounded" onclick="printTicket()"><i class="fa-solid fa-ticket mr-2"></i>Download</button>
+            <button type="button" class="bg-white hover:bg-white text-violet-700 font-bold py-2 text-xs px-6 rounded" onclick="closeSuccessModal()">Done</button>
+
         </div>
     </div>
 </div>
