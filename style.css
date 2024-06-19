@@ -112,7 +112,7 @@ padding: 10px; /* Add padding to the event to create space around the text */
     font-family: 'MyCustomFont';
 }
 .character-spacing {
-    letter-spacing: 4px; /* Adjust the value as needed */
+    letter-spacing: 5px; /* Adjust the value as needed */
     font-family: 'MyCustomFont2';
 }
 

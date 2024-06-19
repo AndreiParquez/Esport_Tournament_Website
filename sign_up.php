@@ -135,30 +135,84 @@ $conn->close();
             position: relative;
             z-index: 10;
         }
+        .logo {
+    margin: auto;
+    position: relative;
+
+    }
+
+    .logo b {
+            color: #ffff; /* Tailwind CSS violet-700 */
+            text-shadow: 0 -40px 900px , 0 0 2px, 0 0 1em #7C3AED, 0 0 0.5em #7C3AED, 0 0 0.1em #7C3AED, 0 10px 3px #000;
+        }
+        .logo b span {
+            animation: blink linear infinite 2s;
+        }
+        .logo b span:nth-of-type(2) {
+            animation: blink linear infinite 3s;
+        }
+        @keyframes blink {
+            78% {
+                color: inherit;
+                text-shadow: inherit;
+            }
+            79% {
+                color: #333;
+            }
+            80% {
+                text-shadow: none;
+            }
+            81% {
+                color: inherit;
+                text-shadow: inherit;
+            }
+            82% {
+                color: #333;
+                text-shadow: none;
+            }
+            83% {
+                color: inherit;
+                text-shadow: inherit;
+            }
+            92% {
+                color: #333;
+                text-shadow: none;
+            }
+            92.5% {
+                color: inherit;
+                text-shadow: inherit;
+            }
+        }
+        .shadow-violet {
+
+        text-shadow: 0px 0px 5px rgba(124, 58, 237, 0.5);
+}
+
+
     </style>
 </head>
 <body class="bg-zinc-900 text-white font-sans bg-[url('src/img/bg.jpg')]  bg-contain bg-repeat bg-center">
     <div class="flex justify-center items-center h-screen">
-        <div class="w-[350px] flex flex-col p-2 relative items-center justify-center opacity-75 bg-zinc-800 border border-gray-500 shadow-lg rounded-2xl">
+        <div class="w-[350px] flex flex-col p-2 shadow-[0_4px_10px_rgba(124,58,237,0.5)] relative items-center justify-center bg-opacity-75 bg-zinc-800 border border-gray-500 rounded-2xl">
             <div id="cover" class="cover"></div>
             <div class="profile-container">
                 <div class="m-4">
                     <div class="flex justify-center items-center">
-                        <img src="src/img/video.png" class="h-14 drop-shadow-lg">
+                     
                         <div>
-                            <h2 class="text-sci text-2xl drop-shadow-lg">Torneo</h2>
-                            <p class="text-xs text-center character-spacing text-violet-700 font-bold ">No Pain No Game</p>
+                        <div class="logo text-sci text-[27px]"><b>T<span>o</span>r<span>n</span>eo</b></div>
+                        <p class="text-[10px] text-violet-300 font-bold text-center character-spacing">No Pain No Game</p>
                         </div>
                     </div>
                 </div>
-                <form action="" method="post" enctype="multipart/form-data" class="flex flex-col w-full static justify-center z-10">
-                    <h1 class="text-center text-sm">Account Creation</h1>
+                <form action="" method="post" enctype="multipart/form-data" class="flex flex-col w-full static text-poppins justify-center z-10">
+                    <h1 class="text-center text-sm ">Account Creation</h1>
                     <div class="flex justify-center mt-4">
                         <div id="profileImageContainer" class="profile-image-preview">
-                            <img src="src/img/prof.png" class="border-4 border-white rounded-full shadow-lg">
+                            <img src="src/img/prof.png" class="border-4 border-white rounded-full shadow-[0_4px_10px_rgba(124,58,237,0.5)]">
                         </div>
                         
-                        <img id="profileImagePreview" src="#" alt="Profile Image Preview" class="profile-image-preview ring-2 ring-black ring-opacity-50 border-4 border-zinc-400 shadow-2xl hidden">
+                        <img id="profileImagePreview" src="#" alt="Profile Image Preview" class="profile-image-preview shadow-[0_4px_10px_rgba(124,58,237,0.5)] ring-2 ring-black ring-opacity-50 border-4 border-zinc-400 shadow-2xl hidden">
 
                         
                         <label for="profile_image" class="editprof flex justify-center items-center"><i class="fa-solid fa-camera"></i></label>
@@ -168,25 +222,25 @@ $conn->close();
 
                     
                     <div class="flex justify-center items-center space-x-8 m-3 text-zinc-200">
-                        <i class="fa-brands fa-google text-xl drop-shadow-lg"></i>
-                        <i class="fa-brands fa-twitter text-xl drop-shadow-lg"></i>
-                        <i class="fa-brands fa-github text-xl drop-shadow-lg"></i>
+                    <i class="fa-brands drop-shadow-[0_4px_10px_rgba(124,58,237,0.5)] fa-google text-xl"></i>
+                        <i class="fa-brands drop-shadow-[0_4px_10px_rgba(124,58,237,0.5)] fa-twitter text-xl"></i>
+                        <i class="fa-brands drop-shadow-[0_4px_10px_rgba(124,58,237,0.5)] fa-github text-xl"></i>
                     </div>
 
                     
                         <div class="input flex flex-col w-full px-4 py-2 static">
                             <label for="username" class="text-violet-700 text-sm bg-transparent font-semibold relative -top-1 ml-[7px] px-[3px] bg-[#e8e8e8] w-fit">Username:</label>
-                            <input id="username" type="text" placeholder="Username" name="username" class="border-zinc-400 placeholder:text-white input px-[10px] py-[14px] text-xs bg-opacity-25 border-2 rounded-[5px]  bg-zinc-800 focus:outline-none placeholder:text-black/25 placeholder:text-xs" required />
+                            <input id="username" type="text" placeholder="Username" name="username" class="border-zinc-400 placeholder:text-gray-400 input px-[10px] py-[14px] text-xs bg-opacity-25 border-2 rounded-[5px]  bg-zinc-800 focus:outline-none placeholder:text-black/25 placeholder:text-xs" required />
                         </div>
                         <div class="input flex flex-col w-full px-4 static py-2 justify-center mt-1">
                             <label for="password" class="text-violet-700 text-sm bg-transparent font-semibold relative -top-1 ml-[7px] px-[3px] bg-[#e8e8e8] w-fit">Password:</label>
-                            <input id="password" type="password" placeholder="Your password" name="password" class="border-zinc-400 placeholder:text-white input px-[10px] py-[14px] text-xs bg-[#e8e8e8] border-2 rounded-[5px] bg-opacity-25  bg-zinc-800  focus:outline-none placeholder:text-black/25 placeholder:text-xs" required />
+                            <input id="password" type="password" placeholder="Your password" name="password" class="border-zinc-400 placeholder:text-gray-400 input px-[10px] py-[14px] text-xs bg-[#e8e8e8] border-2 rounded-[5px] bg-opacity-25  bg-zinc-800  focus:outline-none placeholder:text-black/25 placeholder:text-xs" required />
                         </div>
                     <div class="input flex flex-col w-fit static">
                         <input id="profile_image" type="file" name="profile_image" required onchange="previewImage(event)" />
                     </div>
                     <div class="p-2 mt-2 text-center md:block">
-                        <button type="submit" class="mb-2 w-[280px] md:mb-0 bg-violet-700 px-5 py-2 text-sm shadow-sm font-medium tracking-wider  hover:border-gray-700 text-gray-300 rounded-md hover:shadow-lg hover:bg-gray-800 transition ease-in duration-300">Sign Up</button>
+                        <button type="submit" class="mb-2 w-[280px] md:mb-0 bg-violet-700 px-5 py-2 text-xs shadow-sm font-medium tracking-wider  hover:border-gray-700 text-gray-300 rounded-md hover:shadow-lg hover:bg-gray-800 transition ease-in duration-300">Sign Up</button>
                         <p class="text-gray-400 text-xs m-2">Already have an account?<a href="login.php" class="font-bold text-gray-300"> Sign in</a></p>
                     </div>
                 </form>

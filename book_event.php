@@ -5,7 +5,7 @@
 session_start();
 
 // Check if user is logged in
-if(isset($_SESSION['userId'])) {
+if (isset($_SESSION['userId'])) {
     // Retrieve form data
     $eventId = $_POST["eventId"];
     $name = $_POST["name"];
@@ -13,6 +13,10 @@ if(isset($_SESSION['userId'])) {
     $phone = $_POST["phone"];
 
     // Validate form data (you can add more validation as needed)
+    if (empty($eventId) || empty($name) || empty($email) || empty($phone)) {
+        echo json_encode(['error' => 'All fields are required.']);
+        exit();
+    }
 
     // Connect to MySQL database
     $servername = "localhost";
@@ -23,7 +27,8 @@ if(isset($_SESSION['userId'])) {
 
     // Check connection
     if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
+        echo json_encode(['error' => 'Connection failed: ' . $conn->connect_error]);
+        exit();
     }
 
     // Start a transaction
@@ -54,11 +59,11 @@ if(isset($_SESSION['userId'])) {
             // Commit transaction
             $conn->commit();
 
-            echo "Booking successful";
+            echo json_encode(['success' => 'Booking successful']);
         } else {
             // Rollback transaction if there is an error
             $conn->rollback();
-            echo "Error: " . $stmt->error;
+            echo json_encode(['error' => 'Error: ' . $stmt->error]);
         }
 
         // Close statement
@@ -66,13 +71,13 @@ if(isset($_SESSION['userId'])) {
     } catch (Exception $e) {
         // Rollback transaction if there is an exception
         $conn->rollback();
-        echo "Error: " . $e->getMessage();
+        echo json_encode(['error' => 'Error: ' . $e->getMessage()]);
     }
 
     // Close connection
     $conn->close();
 } else {
     // If user is not logged in, handle the error accordingly
-    echo "Error: User not logged in";
+    echo json_encode(['error' => 'User not logged in']);
 }
 ?>
