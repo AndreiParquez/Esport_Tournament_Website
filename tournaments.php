@@ -325,7 +325,7 @@ $conn->close();
                         <i class="fa-regular fa-calendar shadow-[0_4px_10px_rgba(124,58,237,0.5)]"></i></div><span class="ml-3 font-bold">Calendar</span></a></li>
                     <li class="px-4"><a href="games.php" class="flex items-center p-2 text-gray-300 hover:bg-violet-950 rounded"> <div class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
                         <i class="fa-solid fa-gamepad shadow-[0_4px_10px_rgba(124,58,237,0.5)]"></i></div><span class="ml-3 font-bold">Games</span></a></li>
-                    <li class="px-4"><a href="#" class="flex items-center p-2 text-gray-300 hover:bg-violet-950 rounded"> <div class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
+                    <li class="px-4"><a href="players.php" class="flex items-center p-2 text-gray-300 hover:bg-violet-950 rounded"> <div class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
                         <i class="fa-solid fa-gamepad shadow-[0_4px_10px_rgba(124,58,237,0.5)]"></i></div><span class="ml-3 font-bold">Players</span></a></li>
                 </ul>
             </nav>
@@ -416,7 +416,7 @@ $conn->close();
                 </div>
         <div class="flex  space-x-2  justify-center ">
             <div class="space-y-3">
-            <iframe width="320" height="180" class="rounded-lg shadow-[0_4px_10px_rgba(124,58,237,0.5)]" src="https://www.youtube.com/embed/ScPScTYWN0U?si=D7OcgYEZ9mW-BmTn&amp;start=4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <iframe width="320" height="180" class="rounded-lg shadow-[0_4px_10px_rgba(124,58,237,0.5)]" src="https://www.youtube.com/embed/K2IKbQYDAxc?si=DLDxxzg3_uMTPxoG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             <iframe width="320" height="180" class="rounded-lg shadow-[0_4px_10px_rgba(124,58,237,0.5)]" src="https://www.youtube.com/embed/S_5vlPXLCRc?si=xSjByQpY_WpMZWN6&amp;start=4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                 
             </div>
@@ -501,11 +501,10 @@ $conn->close();
                 <img src="<?php echo $imagePath; ?>" id="userImage" class="h-24 w-24 object-cover rounded-full shadow-[0_4px_10px_rgba(124,58,237,0.5)] border-4 border-gray-700 mr-2 cursor-pointer">
 
 
-                <!-- Add more user information here -->
                 </div>
                 
                 
-                <a href="login.php" class="overflow-hidden relative w-28 p-3 h-10 bg-zinc-100 text-poppins text-zinc-700 rounded border border-violet-600 text-xs font-bold cursor-pointer relative z-10 group shadow-[0_4px_10px_rgba(124,58,237,0.5)] text-center no-underline">
+                <a href="logout.php" class="overflow-hidden relative w-28 p-3 h-10 bg-zinc-100 text-poppins text-zinc-700 rounded border border-violet-600 text-xs font-bold cursor-pointer relative z-10 group shadow-[0_4px_10px_rgba(124,58,237,0.5)] text-center no-underline">
                     Logout <?php echo $username; ?>
                     <span class="absolute w-36 h-32 -top-5 -left-2 bg-violet-200 rotate-12 transform scale-x-0 group-hover:scale-x-100 transition-transform group-hover:duration-500 duration-1000 origin-right shadow-violet"></span>
                     <span class="absolute w-36 h-32 -top-5 -left-2 bg-violet-400 rotate-12 transform scale-x-0 group-hover:scale-x-100 transition-transform group-hover:duration-700 duration-700 origin-right shadow-violet"></span>

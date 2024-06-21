@@ -6,31 +6,12 @@ $username = "root";
 $password = "";
 $dbname = "event_management";
 
+// Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
+// Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
-}
-
-$today = date('Y-m-d');
-$sql = "SELECT * FROM events WHERE start_date <= '$today' AND end_date >= '$today'";
-$result = $conn->query($sql);
-
-$tournamentsToday = [];
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $tournamentsToday[] = $row;
-    }
-}
-
-$sql = "SELECT * FROM games"; // Query to fetch games
-$result = $conn->query($sql);
-
-$games = [];
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $games[] = $row;
-    }
 }
 
 // Check if userId is set in the session
@@ -45,15 +26,64 @@ if(isset($_SESSION['userId'])) {
     exit(); // Make sure to exit after redirection to prevent further execution
 }
 
+// Fetch users
+$sql = "SELECT * FROM users";
+$result = $conn->query($sql);
+
+$users = [];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $users[] = $row;
+    }
+}
+
+$sql = "SELECT * FROM games"; // Query to fetch games
+$result = $conn->query($sql);
+
+$games = [];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $games[] = $row;
+    }
+}
+
+
+$today = date('Y-m-d');
+$sql = "SELECT * FROM events WHERE start_date <= '$today' AND end_date >= '$today'";
+$result = $conn->query($sql);
+
+$tournamentsToday = [];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $tournamentsToday[] = $row;
+    }
+}
+
+
+// Fetch bookings for each user
+for ($i = 0; $i < count($users); $i++) {
+    $userId = $users[$i]['id'];
+    $sql = "SELECT COUNT(*) as count FROM bookings WHERE user_id = $userId";
+    $bookingResult = $conn->query($sql);
+    if ($bookingResult->num_rows > 0) {
+        $bookingRow = $bookingResult->fetch_assoc();
+        $users[$i]['bookings'] = $bookingRow['count'];
+    } else {
+        $users[$i]['bookings'] = 0;
+    }
+}
+
+
 $conn->close();
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Games</title>
+    <title>Users</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://kit.fontawesome.com/1dbbe6d297.js" crossorigin="anonymous"></script>
     <link href="style.css" rel="stylesheet">
@@ -63,27 +93,11 @@ $conn->close();
             background-position: center;
         }
     </style>
-    <script>
-        function searchGames() {
-            let input = document.getElementById('searchInput').value.toLowerCase();
-            let cards = document.getElementsByClassName('game-card');
-            for (let i = 0; i < cards.length; i++) {
-                let card = cards[i];
-                let name = card.getAttribute('data-name').toLowerCase();
-                if (name.includes(input)) {
-                    card.style.display = '';
-                } else {
-                    card.style.display = 'none';
-                }
-            }
-        }
-    </script>
 </head>
 <body class="bg-zinc-900 text-white font-sans bg-[url('src/img/bg.jpg')] bg-contain bg-repeat bg-center">
 <header class="fixed-header flex items-center justify-between p-3 px-10 bg-zinc-950">
     <div class="flex items-center">
         <div class="flex justify-center items-center space-x-2">
-          
             <div>
                 <h2 class="text-sci text-xs">Torneo</h2>
                 <p class="text-[9px] text-center text-violet-700 character-spacing">No Pain No Game</p>
@@ -113,9 +127,9 @@ $conn->close();
                         <i class="fa-solid fa-earth-americas shadow-[0_4px_10px_rgba(124,58,237,0.5)]"></i></div><span class="ml-3 font-bold">Social</span></a></li>
                     <li class="px-4"><a href="calendar.php" class="flex items-center p-2 text-gray-300 hover:bg-violet-950 rounded"> <div class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
                         <i class="fa-regular fa-calendar shadow-[0_4px_10px_rgba(124,58,237,0.5)]"></i></div><span class="ml-3 font-bold">Calendar</span></a></li>
-                    <li class="px-4"><a href="games.php" class="flex items-center p-2 text-gray-300 hover:bg-violet-950 bg-violet-700 rounded"> <div class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
+                    <li class="px-4"><a href="games.php" class="flex items-center p-2 text-gray-300 hover:bg-violet-950  rounded"> <div class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
                         <i class="fa-solid fa-gamepad shadow-[0_4px_10px_rgba(124,58,237,0.5)]"></i></div><span class="ml-3 font-bold">Games</span></a></li>
-                    <li class="px-4"><a href="players.php" class="flex items-center p-2 text-gray-300 hover:bg-violet-950 rounded"> <div class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
+                    <li class="px-4"><a href="players.php" class="flex items-center p-2 text-gray-300 hover:bg-violet-950 bg-violet-700 rounded"> <div class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
                         <i class="fa-solid fa-gamepad shadow-[0_4px_10px_rgba(124,58,237,0.5)]"></i></div><span class="ml-3 font-bold">Players</span></a></li>
                 </ul>
             </nav>
@@ -123,52 +137,61 @@ $conn->close();
     
     <!-- Main content -->
     <main class="main-content content flex-1 p-6 mt-20 text-poppins relative rounded-lg shadow-lg mx-4 md:mx-auto max-w-4xl z-10">
-    <div class="flex w-full justify-between mt-5 mb-5">
-                <div class="flex">
+    <div class="flex">
                 <div>
-                <p class="text-xs  -mb-2">Most played games</p>
+                <p class="text-xs  -mb-2">On the top</p>
                 <div class="flex items-center space-x-5">
-                <h1 class="rounded-full text-md font-bold text-center flex justify-center items-center h-10 ">High end Games</h1>
-                <span class="text-[10px] bg-lime-500 text-white  px-3 py-1  rounded-full">Trending</span>
+                <h1 class="rounded-full text-md font-bold text-center flex justify-center items-center h-10 ">Players</h1>
+                <span class="text-[10px] bg-blue-500 text-white  px-3 py-1  rounded-full">Trending</span>
 
                 </div>
                 </div>
-
-                </div>
-            <div class="mb-4 relative ">
-                <input type="text" id="searchInput" onkeyup="searchGames()" class="bg-zinc-800 text-xs p-2 pl-10 rounded-full w-full placeholder:text-xs" placeholder="Search events...">
-                <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-violet-600"></i>
-            </div>
-            </div>
-
-        <!-- Cards of Games -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <?php foreach ($games as $game) : ?>
-    <div class="relative bg-gray-800 rounded-md shadow-lg transform hover:scale-105 hover:shadow-[0_4px_10px_rgba(124,58,237,0.5)] transition-transform duration-300 overflow-hidden game-card" data-name="<?php echo htmlspecialchars($game['name']); ?>">
-        <div class="relative">
-            <img src="<?php echo $game['card']; ?>" alt="<?php echo htmlspecialchars($game['name']); ?>" class="w-full h-40 object-cover">
-            <div class="h-10 w-full bg-gradient-to-t from-zinc-900 to-zinc-800 opacity-75"></div>
-            <div class="absolute inset-0 bg-gradient-to-t from-zinc-900 via-zinc-800 via-gray-700 via-gray-600 to-gray-800 opacity-80 transition-opacity duration-300 hover:opacity-25"></div>
-        </div>
-        <div class="absolute inset-0 flex flex-col justify-between py-3">
-            <div>
-                <img src="<?php echo $game['cover']; ?>" alt="<?php echo htmlspecialchars($game['name']); ?>" class="w-full h-20 object-contain px-10 mt-10">
-                
-            </div>
-            <div class="flex justify-between items-center px-2">
-                <div class="flex items-center space-x-2">
-                <img src="<?php echo $game['logo']; ?>" alt="<?php echo htmlspecialchars($game['name']); ?>" class="w-6 h-6 rounded-full border-2 border-violet-800 bg-violet-800 object-cover">
-                <p class="text-[11px]"><?php echo htmlspecialchars($game['name']); ?></p>
-                </div>
-                <a href="game.php?id=<?php echo $game['id']; ?>" class="inline-block bg-violet-700 text-white px-3 py-1 rounded-md text-[10px] hover:bg-violet-900">View</a>
-            </div>
-        </div>
     </div>
-<?php endforeach; ?>
-
-</div>
-
-
+        <div class="overflow-auto rounded-lg w-full shadow-lg">
+            <table class="bg-zinc-900 w-full text-xs">
+                <thead>
+                    <tr class="w-full bg-zinc-800 text-gray-300">
+                        <th class="border-b py-3 border-violet-900 text-start px-2">#</th>
+                        <th class="border-b py-3 border-violet-900 text-start px-2">Username</th>
+                        <th class="border-b py-3 border-violet-900 text-center px-2">Tournaments Joined</th>
+                        <th class="border-b py-3 border-violet-900 text-start px-6">Winrate</th>
+                        <th class="border-b py-3 border-violet-900 text-start px-6">Winrate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($users as $user) : ?>
+                        <tr class="text-gray-300 text-xs">
+                            <td class="border-b border-violet-900 px-4 py-3"><?php echo $user['id']; ?></td>
+                            <td class="border-b border-violet-900 px-4 py-3">
+                                <div class="flex justify-start items-center">
+                                    <img src="<?php echo htmlspecialchars($user['profile_image']); ?>" alt="Profile Picture" class="h-9 w-9 rounded-full mr-2 border-2 shadow-sm  bg-violet-600 border-violet-800 object-cover">
+                                    <?php echo htmlspecialchars($user['username']); ?>
+                                </div>
+                            </td>
+                            <td class="border-b border-violet-900  py-3 text-center"><?php echo $user['bookings']; ?></td>
+                            <td class="border-b border-violet-900 px-4 py-3">
+                                <div class="flex items-center space-x-2 justify-between">
+                                <div class="text-right mt-1 text-gray-400 text-[10px]"><?php echo $user['winrate']; ?>%</div>
+                                <div class="relative w-full h-2 bg-zinc-900 rounded">
+                                    <div class="absolute top-0 left-0 h-2 bg-green-500 rounded" style="width: <?php echo $user['winrate']; ?>%;"></div>
+                                </div>
+                                </div>
+                               
+                            </td>
+                            <td class="border-b border-violet-900 px-4 py-3">
+                                <div class="flex items-center space-x-2 justify-between">
+                                <div class="text-right mt-1 text-gray-400 text-[10px]"><?php echo $user['winrate']; ?>%</div>
+                                <div class="relative w-full h-2 bg-zinc-600 rounded">
+                                    <div class="absolute top-0 left-0 h-2 bg-yellow-600 rounded" style="width: <?php echo $user['winrate']; ?>%;"></div>
+                                </div>
+                                </div>
+                               
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
     </main>
     
     <aside class="fixed-sidebar right-sidebar w-64 p-4 text-poppins z-10">

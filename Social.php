@@ -121,7 +121,7 @@ if ($result->num_rows > 0) {
                         <i class="fa-regular fa-calendar shadow-[0_4px_10px_rgba(124,58,237,0.5)]"></i></div><span class="ml-3 font-bold">Calendar</span></a></li>
                     <li class="px-4"><a href="games.php" class="flex items-center p-2 text-gray-300 hover:bg-violet-950 rounded"> <div class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
                         <i class="fa-solid fa-gamepad shadow-[0_4px_10px_rgba(124,58,237,0.5)]"></i></div><span class="ml-3 font-bold">Games</span></a></li>
-                    <li class="px-4"><a href="#" class="flex items-center p-2 text-gray-300 hover:bg-violet-950 rounded"> <div class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
+                    <li class="px-4"><a href="players.php" class="flex items-center p-2 text-gray-300 hover:bg-violet-950 rounded"> <div class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
                         <i class="fa-solid fa-gamepad shadow-[0_4px_10px_rgba(124,58,237,0.5)]"></i></div><span class="ml-3 font-bold">Players</span></a></li>
                 </ul>
             </nav>
@@ -232,6 +232,52 @@ if ($result->num_rows > 0) {
         </div>
         </aside>
     </div>
+
+
+    <div id="userModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-40 ">
+        <div class="bg-violet-700 rounded-lg p-2 w-56 absolute right-4 top-16">
+            <div class="flex justify-between text-xs items-center">
+                <h2 class="text-sm font-semibold">User Information</h2>
+                <button id="closeModal" class="text-gray-100 hover:text-gray-200">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="mt-4 flex justify-center items-center">
+                <div>
+                <img src="<?php echo $imagePath; ?>" id="userImage" class="h-24 w-24 object-cover rounded-full shadow-[0_4px_10px_rgba(124,58,237,0.5)] border-4 border-gray-700 mr-2 cursor-pointer">
+
+
+                <!-- Add more user information here -->
+                </div>
+                
+                
+                <a href="login.php" class="overflow-hidden relative w-28 p-3 h-10 bg-zinc-100 text-poppins text-zinc-700 rounded border border-violet-600 text-xs font-bold cursor-pointer relative z-10 group shadow-[0_4px_10px_rgba(124,58,237,0.5)] text-center no-underline">
+                    Logout <?php echo $username; ?>
+                    <span class="absolute w-36 h-32 -top-5 -left-2 bg-violet-200 rotate-12 transform scale-x-0 group-hover:scale-x-100 transition-transform group-hover:duration-500 duration-1000 origin-right shadow-violet"></span>
+                    <span class="absolute w-36 h-32 -top-5 -left-2 bg-violet-400 rotate-12 transform scale-x-0 group-hover:scale-x-100 transition-transform group-hover:duration-700 duration-700 origin-right shadow-violet"></span>
+                    <span class="absolute w-36 h-32 -top-5 -left-2 bg-violet-600 rotate-12 transform scale-x-0 group-hover:scale-x-100 transition-transform group-hover:duration-1000 duration-500 origin-right shadow-violet"></span>
+                    <span class="group-hover:opacity-100 group-hover:duration-1000 duration-100 opacity-0 absolute text-white top-2.5 left-2 z-10">Logout?<i class="fa-solid fa-play ml-4"></i></span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        document.getElementById('userImage').addEventListener('click', function() {
+            document.getElementById('userModal').classList.remove('hidden');
+        });
+
+        document.getElementById('closeModal').addEventListener('click', function() {
+            document.getElementById('userModal').classList.add('hidden');
+        });
+
+        window.addEventListener('click', function(event) {
+            if (event.target === document.getElementById('userModal')) {
+                document.getElementById('userModal').classList.add('hidden');
+            }
+        });
+    </script>
 
     <script>
         $(document).ready(function() {
