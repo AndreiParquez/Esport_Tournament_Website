@@ -364,11 +364,25 @@ if(isset($_SESSION['userId'])) {
 
         </div>
     </div>
+
+
+    <div id="successModal" class="absolute top-[65px] inset-x-1/3 left- p-4 w-1/3 bg-white text-zinc-900 rounded-b-lg shadow-lg transform transition-transform -translate-y-full hidden">
+        <div class="flex justify-between items-center">
+        <div class="flex justify-center space-x-4">
+                <i class="fa-regular fa-circle-check text-[40px]"></i>
+                <div>
+                <h3 class="text-sm leading-6 ">Success</h3>
+                <p class="text-xs text-gray-500" id="successMessage">Event added successfully!</p>
+                </div>
+        </div>
+            <button type="button" onclick="closeToast('successToast')" class="ml-4 inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-1 bg-zinc-700 text-xs  text-gray-300 hover:bg-gray-900 focus:outline-none sm:text-sm">Ok</button>
+        </div>
+    </div>
     
     
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -408,7 +422,8 @@ if(isset($_SESSION['userId'])) {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                alert('Event created successfully!');
+                showSuccessModal('Success adding event ');
+
                 calendar.refetchEvents();
                 closeModal();
             } else {
@@ -420,16 +435,26 @@ if(isset($_SESSION['userId'])) {
             alert('Error creating event');
         });
     });
+
+    function openModal() {
+        document.getElementById('eventModal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+        document.getElementById('eventModal').classList.add('hidden');
+    }
+
+    function showSuccessModal(message) {
+        const successModal = document.getElementById('successModal');
+        const successMessage = document.getElementById('successMessage');
+        successMessage.innerText = message;
+        successModal.classList.remove('hidden');
+        setTimeout(() => {
+            successModal.classList.add('hidden');
+        }, 3000); // Show the success modal for 3 seconds
+    }
 });
+</script>
 
-function openModal() {
-    document.getElementById('eventModal').classList.remove('hidden');
-}
-
-function closeModal() {
-    document.getElementById('eventModal').classList.add('hidden');
-}
-
-    </script>
 </body>
 </html>

@@ -323,9 +323,7 @@ $conn->close();
                         <i class="fa-solid fa-earth-americas shadow-[0_4px_10px_rgba(124,58,237,0.5)]"></i></div><span class="ml-3 font-bold">Social</span></a></li>
                     <li class="px-4"><a href="calendar.php" class="flex items-center p-2 text-gray-300 hover:bg-violet-950 rounded"> <div class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
                         <i class="fa-regular fa-calendar shadow-[0_4px_10px_rgba(124,58,237,0.5)]"></i></div><span class="ml-3 font-bold">Calendar</span></a></li>
-                    <li class="px-4"><a href="#" class="flex items-center p-2 text-gray-300 hover:bg-violet-950 rounded"> <div class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
-                        <i class="fa-solid fa-list-check shadow-[0_4px_10px_rgba(124,58,237,0.5)]"></i></i></div><span class="ml-3 font-bold">Leaderboards</span></a></li>
-                    <li class="px-4"><a href="#" class="flex items-center p-2 text-gray-300 hover:bg-violet-950 rounded"> <div class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
+                    <li class="px-4"><a href="games.php" class="flex items-center p-2 text-gray-300 hover:bg-violet-950 rounded"> <div class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
                         <i class="fa-solid fa-gamepad shadow-[0_4px_10px_rgba(124,58,237,0.5)]"></i></div><span class="ml-3 font-bold">Games</span></a></li>
                     <li class="px-4"><a href="#" class="flex items-center p-2 text-gray-300 hover:bg-violet-950 rounded"> <div class="text-gray-300 hover:text-white border-2 border-gray-700 rounded-full w-8 h-8 flex items-center justify-center">
                         <i class="fa-solid fa-gamepad shadow-[0_4px_10px_rgba(124,58,237,0.5)]"></i></div><span class="ml-3 font-bold">Players</span></a></li>
@@ -586,7 +584,7 @@ $conn->close();
                     Just show this e-ticket in the venue
                 </div>
                 <div class="ticket-details">
-                    <img src="src/img/qr.png" class="scan">
+                    <img src="src/img/qr.png" class="scan" id="qrcode">
                     <div class="ticket">
                         <p>1Ticket(s)</p>
                         <p>Thank You!</p>
@@ -776,7 +774,7 @@ $conn->close();
         content.className = 'm-1';
 
         const date = document.createElement('p');
-        date.className = 'text-gray-400 text-[10px]';
+        date.className = 'text-violet-600 text-[10px]';
         date.textContent = `${event.start} - ${event.end}`;
         content.appendChild(date);
 

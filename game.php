@@ -53,6 +53,7 @@ if(isset($_GET['id'])) {
         $game = $result->fetch_assoc();
         $gameName = $game['name'];
         $gameLogo = $game['logo'];
+        $gameCover = $game['card'];
         $gameDescription = $game['description'];
         $releaseDate = $game['release_date'];
         $genre = $game['genre'];
@@ -140,11 +141,11 @@ $conn->close();
         <main class="main-content content flex-1 p-6 mt-20 text-poppins relative  rounded-lg shadow-lg mx-4 md:mx-auto max-w-4xl z-10">
             <div class="w-full slider-container relative mb-5">
                 <!-- Blurred cover image -->
-                <div class="w-full h-48 bg-blur arounded-lg mb-5 rounded-lg opacity-25" style="background-image: url('<?php echo $gameLogo; ?>');"></div>
-                <div class="absolute top-40">
-                    <div class="flex px-10 items-center space-x-1">
+                <div class="w-full h-72 bg-blur arounded-lg mb-5 rounded-lg opacity-25" style="background-image: url('<?php echo $gameCover; ?>');"></div>
+                <div class="absolute top-56">
+                    <div class="flex px-10 items-start space-x-2">
                         <img src="<?php echo $gameLogo; ?>" alt="<?php echo $gameName; ?> Logo" class="h-24 rounded-full border-4 border-violet-950 mb-4 z-10">
-                        <div>
+                        <div class="mt-2">
                             <h1 class="text-md font-bold mb-1"><?php echo $gameName; ?></h1>
                             <div class="text-xs ml-3">
                             
@@ -155,7 +156,7 @@ $conn->close();
                     </div>
 
                 </div>
-                <p class="text-xs indent-8"><?php echo $gameDescription; ?></p>
+                <p class="text-xs indent-8 mx-5"><?php echo $gameDescription; ?></p>
 
                 <!-- Add more game information as needed -->
 
