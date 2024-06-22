@@ -23,11 +23,11 @@
 --fc-daygrid-event-dot-width: 5px;
 }
 .fc-event {
-background-color: #545353; /* Set the background color of the event */
-color: #ffffff; /* Set the text color of the event */
-border: 1px solid #5e687200; /* Set the border color and thickness of the event */
-border-radius: 20px; /* Set the border radius to make the edges rounded */
-padding: 10px; /* Add padding to the event to create space around the text */
+background-color: #545353;
+color: #ffffff; 
+border: 1px solid #5e687200; 
+border-radius: 20px; 
+padding: 10px;
 }
 
 
@@ -38,7 +38,7 @@ padding: 10px; /* Add padding to the event to create space around the text */
     font-family: 'MyCustomFont';
 }
 .character-spacing {
-    letter-spacing: 5px; /* Adjust the value as needed */
+    letter-spacing: 5px; 
     font-family: 'MyCustomFont2';
 }
 
@@ -54,7 +54,7 @@ body, html {
 }
 .content {
     overflow-y: auto;
-    height: calc(100vh - 4rem); /* Adjust height based on the header */
+    height: calc(100vh - 4rem); 
     padding-top: 4rem;
 }
 .fixed-header {
@@ -66,27 +66,27 @@ body, html {
 }
 .fixed-sidebar {
     position: fixed;
-    top: 4rem; /* Adjust top based on the header */
+    top: 4rem; 
     bottom: 0;
     z-index: 1000;
     overflow-y: auto;
 }
 .main-content {
-    margin-left: 16rem; /* Adjust based on the sidebar width */
-    margin-right: 16rem; /* Adjust based on the sidebar width */
+    margin-left: 16rem; 
+    margin-right: 16rem; 
     padding: 1rem;
 }
 .right-sidebar {
     right: 0;
 }
-/* Hide scrollbar for Chrome, Safari and Opera */
+
 .content::-webkit-scrollbar, .fixed-sidebar::-webkit-scrollbar {
     display: none;
 }
-/* Hide scrollbar for IE, Edge and Firefox */
+
 .content, .fixed-sidebar {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 #profile_image{
     display: none;

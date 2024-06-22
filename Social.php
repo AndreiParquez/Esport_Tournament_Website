@@ -6,11 +6,10 @@ $username = "root";
 $password = "";
 $dbname = "event_management";
 
-// Create connection
+
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 
-// Check connection
 if ($conn->connect_error) {
     echo json_encode(['error' => 'Connection failed: ' . $conn->connect_error]);
     exit();
@@ -18,7 +17,6 @@ if ($conn->connect_error) {
 
 
 
-// Check if userId is set in the session
 if(isset($_SESSION['userId'])) {
     $userId = $_SESSION['userId'];
     $username = $_SESSION['username'];
@@ -42,7 +40,7 @@ if ($result->num_rows > 0) {
 
 
 
-$sql = "SELECT * FROM games"; // Query to fetch games
+$sql = "SELECT * FROM games"; 
 $result = $conn->query($sql);
 
 $games = [];
@@ -52,7 +50,7 @@ if ($result->num_rows > 0) {
     }
 }
 
-// Fetch posts from the database
+
 $sql = "SELECT posts.*, likes.userId AS liked_by_user FROM posts 
         LEFT JOIN likes ON posts.id = likes.postId AND likes.userId = $userId 
         ORDER BY time DESC";
@@ -109,7 +107,7 @@ if ($result->num_rows > 0) {
     </nav>
     </header>
     <div class="flex">
-        <!-- Sidebar -->
+        
         <aside class="fixed-sidebar w-64 p-4 z-10">
             <nav>
                 <ul class="space-y-2 text-sm text-poppins">
@@ -127,7 +125,7 @@ if ($result->num_rows > 0) {
             </nav>
         </aside>
 
-        <!-- Main Content -->
+        
         <main class="main-content content flex-1 p-6 mt-20 text-poppins">
             <div class="max-w-xl mx-auto">
                 <div>
@@ -136,7 +134,7 @@ if ($result->num_rows > 0) {
                         <h1 class="rounded-full text-md font-bold text-center flex justify-center items-center h-10 ">Latest update</h1>
                     </div>
                 </div>
-                <!-- Post Form -->
+                
                 <div class="shadow-md rounded-lg pb-1 p-3 mb-3 text-xs bg-zinc-800 bg-opacity-75 z-10 sticky -top-6">
                     <form action="create_post.php" method="POST" enctype="multipart/form-data">
                         <div class="flex items-center mb-4">
@@ -157,7 +155,7 @@ if ($result->num_rows > 0) {
                 <h1 class="rounded-full text-md font-bold text-left h-10 ">Timeline</h1>
 
              
-              <!-- Display Posts -->
+             
             <?php foreach ($posts as $post): ?>
                 <div class="shadow-md rounded-lg bg-zinc-800 bg-opacity-75 p-4 mb-4 text-white">
                     <div class="flex items-start mb-4">
@@ -222,7 +220,7 @@ if ($result->num_rows > 0) {
 
             <h1 class="text-sm font-bold mb-4 mt-4">Games</h1>
             
-            <!-- Games Logo Div with 3 Columns -->
+         
             <div class="grid grid-cols-3 gap-4">
             <?php foreach ($games as $game) : ?>
                 <a href="game.php?id=<?php echo $game['id']; ?>">
@@ -247,7 +245,7 @@ if ($result->num_rows > 0) {
                 <img src="<?php echo $imagePath; ?>" id="userImage" class="h-24 w-24 object-cover rounded-full shadow-[0_4px_10px_rgba(124,58,237,0.5)] border-4 border-gray-700 mr-2 cursor-pointer">
 
 
-                <!-- Add more user information here -->
+           
                 </div>
                 
                 
@@ -358,8 +356,8 @@ if ($result->num_rows > 0) {
             });
         }
 
-        setInterval(updatePostTimes, 60000); // Update every minute
-        updatePostTimes(); // Initial update
+        setInterval(updatePostTimes, 60000); 
+        updatePostTimes();
     </script>
 </body>
 </html>

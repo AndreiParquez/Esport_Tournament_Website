@@ -25,7 +25,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
     $uploadOk = 1;
 
-    // Check if image file is an actual image or fake image
     $check = getimagesize($profileImage["tmp_name"]);
     if ($check !== false) {
         $uploadOk = 1;
@@ -34,23 +33,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $uploadOk = 0;
     }
 
-    // Check if file already exists
+    
     if (file_exists($targetFile)) {
         $error = "Sorry, file already exists.";
         $uploadOk = 0;
     }
 
-    // Allow certain file formats
+  
     if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
         $error = "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
         $uploadOk = 0;
     }
 
-    // Check if $uploadOk is set to 0 by an error
+    
     if ($uploadOk == 0) {
         $error = "Sorry, please choose another image.";
     } else {
-        // Check for duplicate username
+        
         $sql = "SELECT id FROM users WHERE username = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("s", $username);
@@ -60,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($stmt->num_rows > 0) {
             $error = "Username already exists. Please choose a different username.";
         } else {
-            // If everything is ok, try to upload file
+            
             if (move_uploaded_file($profileImage["tmp_name"], $targetFile)) {
                 $sql = "INSERT INTO users (username, password, profile_image) VALUES (?, ?, ?)";
                 $stmt = $conn->prepare($sql);
@@ -100,7 +99,7 @@ $conn->close();
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #6b7280; /* Gray-500 from Tailwind */
+            color: #6b7280; 
         }
         .placeholder-text {
             font-size: 14px;
@@ -142,7 +141,7 @@ $conn->close();
     }
 
     .logo b {
-            color: #ffff; /* Tailwind CSS violet-700 */
+            color: #ffff; 
             text-shadow: 0 -40px 900px , 0 0 2px, 0 0 1em #7C3AED, 0 0 0.5em #7C3AED, 0 0 0.1em #7C3AED, 0 10px 3px #000;
         }
         .logo b span {
@@ -262,10 +261,10 @@ $conn->close();
 
     <div id="successToast" class="fixed top-0 inset-x-1/3 left- p-4 w-1/3 bg-white text-zinc-900 rounded-b-lg shadow-lg transform transition-transform -translate-y-full hidden">
         <div class="flex justify-between items-center">
-        <div class="flex justify-center space-x-4">
-                <i class="fa-regular fa-circle-check text-[40px]"></i>
+        <div class="flex justify-center space-x-4 text-poppins">
+                <i class="fa-regular fa-circle-check text-lime-500 text-[40px]"></i>
                 <div>
-                <h3 class="text-sm leading-6 ">Success</h3>
+                <h3 class="text-sm leading-6 font-bold">Success</h3>
                 <p class="text-xs text-gray-500" id="successMessage"></p>
                 </div>
         </div>
@@ -293,10 +292,10 @@ $conn->close();
             toast.classList.remove('translate-y-0');
             setTimeout(() => {
                 toast.classList.add('hidden');
-            }, 300); // Match this duration with the transition duration
+            }, 300); 
         }
 
-        // Show the toast if there is an error or success
+       
         <?php if (!empty($error)) : ?>
             showToast('errorToast', '<?php echo $error; ?>');
         <?php elseif (!empty($success)) : ?>

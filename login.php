@@ -12,8 +12,8 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$loginSuccess = false; // Initialize login success flag
-$loginFailed = false; // Initialize login failed flag
+$loginSuccess = false;
+$loginFailed = false; 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
@@ -27,12 +27,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
-        $_SESSION['userId'] = $user['id']; // Assuming 'id' is the primary key column of the users table
-        $_SESSION['username'] = $user['username']; // Store username in session
-        $_SESSION['imagePath'] = $user['profile_image']; // Store image path in session (assuming the column name is 'image_path')
-        $loginSuccess = true; // Set login success flag
+        $_SESSION['userId'] = $user['id']; 
+        $_SESSION['username'] = $user['username'];
+        $_SESSION['imagePath'] = $user['profile_image']; 
+        $loginSuccess = true; 
     } else {
-        $loginFailed = true; // Set login failed flag
+        $loginFailed = true; 
     }
 
     $stmt->close();
@@ -106,7 +106,7 @@ $conn->close();
     }
 
     .logo b {
-            color: #ffff; /* Tailwind CSS violet-700 */
+            color: #ffff; 
             text-shadow: 0 -40px 900px , 0 0 2px, 0 0 1em #7C3AED, 0 0 0.5em #7C3AED, 0 0 0.1em #7C3AED, 0 10px 3px #000;
         }
         .logo b span {
@@ -200,7 +200,7 @@ $conn->close();
    
 
 
-    <!-- Loader -->
+
     <div id="loader" class="fixed inset-0 bg-zinc-900  z-20 hidden">
     <div class="progress-loader">
     <div class="progress shadow-[0_4px_10px_rgba(124,58,237,0.5)]"></div>
@@ -211,10 +211,10 @@ $conn->close();
 
     <div id="errorModal" class="fixed top-0 inset-x-1/3 left- p-4 w-1/3 bg-white text-zinc-900 rounded-b-lg shadow-lg transform transition-transform -translate-y-full hidden">
     <div class="flex justify-between px-4 items-center">
-        <div class="flex justify-center space-x-4">
-            <i class="fa-regular fa-circle-xmark text-[40px]"></i>
+        <div class="flex justify-center space-x-4 text-poppins">
+            <i class="fa-regular text-red-500 fa-circle-xmark text-[40px]"></i>
             <div>
-                <h3 class="text-sm leading-6 ">Invalid Username or Password</h3>
+                <h3 class="text-sm leading-6 font-bold ">Invalid Username or Password</h3>
                 <p class="text-xs text-gray-500">Please check your credentials and try again.</p>
             </div>
         </div>
@@ -255,7 +255,7 @@ $conn->close();
                 showLoader();
                 setTimeout(function() {
                     window.location.href = "tournaments.php";
-                }, 1500); // 2 second delay
+                }, 1500); 
             <?php elseif ($loginFailed): ?>
                 showModal();
             <?php endif; ?>

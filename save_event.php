@@ -12,7 +12,7 @@ if ($conn->connect_error) {
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $eventName = $_POST['eventName'];
-    $eventDescription = $_POST['eventDescription']; // Add description field
+    $eventDescription = $_POST['eventDescription'];
     $startDate = $_POST['startDate'];
     $endDate = $_POST['endDate'];
     $startTime = $_POST['startTime'];

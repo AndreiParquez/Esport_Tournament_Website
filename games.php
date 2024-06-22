@@ -23,7 +23,7 @@ if ($result->num_rows > 0) {
     }
 }
 
-$sql = "SELECT * FROM games"; // Query to fetch games
+$sql = "SELECT * FROM games"; 
 $result = $conn->query($sql);
 
 $games = [];
@@ -33,16 +33,15 @@ if ($result->num_rows > 0) {
     }
 }
 
-// Check if userId is set in the session
+
 if(isset($_SESSION['userId'])) {
-    // Access user data from session
+   
     $userId = $_SESSION['userId'];
     $username = $_SESSION['username'];
     $imagePath = $_SESSION['imagePath'];
 } else {
-    // If userId is not set, redirect the user to the login page or handle the scenario accordingly
     header("Location: login.php");
-    exit(); // Make sure to exit after redirection to prevent further execution
+    exit(); 
 }
 
 $conn->close();
@@ -136,12 +135,11 @@ $conn->close();
 
                 </div>
             <div class="mb-4 relative ">
-                <input type="text" id="searchInput" onkeyup="searchGames()" class="bg-zinc-800 text-xs p-2 pl-10 rounded-full w-full placeholder:text-xs" placeholder="Search events...">
+                <input type="text" id="searchInput" onkeyup="searchGames()" class="bg-zinc-800 text-xs p-2 pl-10 rounded-full w-full placeholder:text-xs" placeholder="Search games...">
                 <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-violet-600"></i>
             </div>
             </div>
 
-        <!-- Cards of Games -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <?php foreach ($games as $game) : ?>
     <div class="relative bg-gray-800 rounded-md shadow-lg transform hover:scale-105 hover:shadow-[0_4px_10px_rgba(124,58,237,0.5)] transition-transform duration-300 overflow-hidden game-card" data-name="<?php echo htmlspecialchars($game['name']); ?>">
@@ -193,7 +191,7 @@ $conn->close();
 
         <h1 class="text-sm font-bold mb-4 mt-4">Games</h1>
         
-        <!-- Games Logo Div with 3 Columns -->
+    
         <div class="grid grid-cols-3 gap-4">
             <?php foreach ($games as $game) : ?>
                 <a href="game.php?id=<?php echo $game['id']; ?>">

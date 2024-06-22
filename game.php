@@ -1,6 +1,5 @@
-<!-- game.php -->
-
 <?php
+session_start();
 
 $servername = "localhost";
 $username = "root";
@@ -28,7 +27,7 @@ if ($result->num_rows > 0) {
 
 
 
-$sql = "SELECT * FROM games"; // Query to fetch games
+$sql = "SELECT * FROM games";
 $result = $conn->query($sql);
 
 $games = [];
@@ -39,17 +38,17 @@ if ($result->num_rows > 0) {
 }
 
 
-// Check if the game ID is provided in the URL
+
 if(isset($_GET['id'])) {
-    // Sanitize the input to prevent SQL injection
+    
     $gameId = mysqli_real_escape_string($conn, $_GET['id']);
 
-    // Query to fetch game information based on the provided ID
+   
     $sql = "SELECT * FROM games WHERE id = $gameId";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
-        // Game found, fetch and display its information
+        
         $game = $result->fetch_assoc();
         $gameName = $game['name'];
         $gameLogo = $game['logo'];
@@ -59,28 +58,26 @@ if(isset($_GET['id'])) {
         $genre = $game['genre'];
         $platform = $game['platform'];
     } else {
-        // Game not found, handle accordingly (e.g., show error message)
+        
         $errorMessage = "Game not found!";
     }
 } else {
-    // Redirect if game ID is not provided
-    header("Location: index.php"); // Assuming your main page is index.php
+ 
+    header("Location: index.php"); 
     exit();
 }
 
-// Check if userId is set in the session
 if(isset($_SESSION['userId'])) {
-    // Access user data from session
+   
     $userId = $_SESSION['userId'];
     $username = $_SESSION['username'];
     $imagePath = $_SESSION['imagePath'];
 } else {
-    // If userId is not set, redirect the user to the login page or handle the scenario accordingly
     header("Location: login.php");
-    exit(); // Make sure to exit after redirection to prevent further execution
+    exit(); 
 }
 
-// Close the database connection
+
 $conn->close();
 ?>
 
@@ -99,7 +96,7 @@ $conn->close();
             background-position: center;
         }
     </style>
-    <!-- Add your CSS and JavaScript files here -->
+    
 </head>
 <body class="bg-zinc-900 text-white font-sans bg-[url('src/img/bg.jpg')]  bg-contain bg-repeat bg-center">
 <header class="fixed-header flex items-center justify-between p-3 px-10 bg-zinc-950">
@@ -146,11 +143,10 @@ $conn->close();
 
 
       
-        
-        <!-- Main content -->
+    
         <main class="main-content content flex-1 p-6 mt-20 text-poppins relative  rounded-lg shadow-lg mx-4 md:mx-auto max-w-4xl z-10">
             <div class="w-full slider-container relative mb-5">
-                <!-- Blurred cover image -->
+               
                 <div class="w-full h-72 bg-blur arounded-lg mb-5 rounded-lg opacity-25" style="background-image: url('<?php echo $gameCover; ?>');"></div>
                 <div class="absolute top-56">
                     <div class="flex px-10 items-start space-x-2">
@@ -168,7 +164,7 @@ $conn->close();
                 </div>
                 <p class="text-xs indent-8 mx-5"><?php echo $gameDescription; ?></p>
 
-                <!-- Add more game information as needed -->
+          
 
                 <?php if(isset($errorMessage)) : ?>
                     <p class="text-red-500"><?php echo $errorMessage; ?></p>
@@ -202,7 +198,6 @@ $conn->close();
 
             <h1 class="text-sm font-bold mb-4 mt-4">Games</h1>
             
-            <!-- Games Logo Div with 3 Columns -->
             <div class="grid grid-cols-3 gap-4">
             <?php foreach ($games as $game) : ?>
                 <a href="game.php?id=<?php echo $game['id']; ?>">
@@ -211,15 +206,6 @@ $conn->close();
             <?php endforeach; ?>
         </div>
         </aside>
-
-
-
-
-
-
-
-
-
 
 
 

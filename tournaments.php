@@ -27,7 +27,7 @@ if ($result->num_rows > 0) {
 
 
 
-$sql = "SELECT * FROM games"; // Query to fetch games
+$sql = "SELECT * FROM games"; 
 $result = $conn->query($sql);
 
 $games = [];
@@ -36,16 +36,15 @@ if ($result->num_rows > 0) {
         $games[] = $row;
     }
 }
-// Check if userId is set in the session
+
 if(isset($_SESSION['userId'])) {
-    // Access user data from session
+    
     $userId = $_SESSION['userId'];
     $username = $_SESSION['username'];
     $imagePath = $_SESSION['imagePath'];
 } else {
-    // If userId is not set, redirect the user to the login page or handle the scenario accordingly
     header("Location: login.php");
-    exit(); // Make sure to exit after redirection to prevent further execution
+    exit(); 
 }
 $conn->close();
 ?>
@@ -82,7 +81,7 @@ $conn->close();
 }
 
 .logo b {
-            color: #ffff; /* Tailwind CSS violet-700 */
+            color: #ffff; 
             text-shadow: 0 -40px 900px , 0 0 2px, 0 0 1em #7C3AED, 0 0 0.5em #7C3AED, 0 0 0.1em #7C3AED, 0 10px 3px #000;
         }
         .logo b span {
@@ -313,7 +312,7 @@ $conn->close();
     </nav>
     </header>
     <div class="flex">
-        <!-- Sidebar -->
+        
         <aside class="fixed-sidebar w-64 p-4 z-10">
             <nav>
                 <ul class="space-y-2 text-sm text-poppins">
@@ -331,7 +330,7 @@ $conn->close();
             </nav>
         </aside>
 
-        <!-- Main Content -->
+      
         <main class="main-content content flex-1 p-6 mt-10  text-poppins">
 
         <div class="flex justify-center items-center">
@@ -389,7 +388,7 @@ $conn->close();
                         <h2 class="text-xl font-bold mb-2 z-20">Unlock a World of Possibilities</h2>
                         <p class="text-xs">From epic showdowns in popular titles to niche competitions, our platform hosts a diverse range of tournaments to suit every gamer's taste.</p>
 
-                        <!-- Image Cover -->
+                        
                         <img src="src/img/covervalo.jpg" alt="New Image Cover" class="absolute inset-0 object-cover w-full h-full opacity-25 z-15">
                         
                     </div>
@@ -429,7 +428,7 @@ $conn->close();
 
 
 
-            <div class="flex w-[1000px] justify-between mt-5 px-10">
+            <div class="flex w-full justify-between mt-5 px-10">
                 <div class="flex">
                 <div>
                 <p class="text-xs ml-5 -mb-2">Trending</p>
@@ -448,14 +447,14 @@ $conn->close();
             </div>
             
             <div class="grid px-14 grid-cols-4 gap-3 mt-5" id="eventContainer">
-                <!-- Event cards will be inserted here -->
+              
             </div>
 
         </main>
 
         <aside class="fixed-sidebar right-sidebar w-64 p-4 text-poppins z-10">
             <h1 class="text-sm font-bold mb-4">Tournaments Today</h1>
-            <div class="h-48 rounded-lg bg-zinc-800 p-2 overflow-auto">
+            <div class="max-h-48 min-h-24 rounded-lg bg-zinc-800 p-2 overflow-auto">
                 <?php if (!empty($tournamentsToday)) : ?>
                     <ul class="space-y-2">
                         <?php foreach ($tournamentsToday as $tournament) : ?>
@@ -470,12 +469,13 @@ $conn->close();
                     </ul>
                 <?php else : ?>
                     <p class="text-gray-400 text-xs">No tournaments today.</p>
+
                 <?php endif; ?>
             </div>
 
             <h1 class="text-sm font-bold mb-4 mt-4">Games</h1>
             
-            <!-- Games Logo Div with 3 Columns -->
+           
             <div class="grid grid-cols-3 gap-4">
             <?php foreach ($games as $game) : ?>
                 <a href="game.php?id=<?php echo $game['id']; ?>">
@@ -515,7 +515,7 @@ $conn->close();
         </div>
     </div>
 
-  <!-- Form Modal -->
+  
 <div id="bookingModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
     <div class="backdrop-blur-sm bg-zinc-800 bg-opacity-60 rounded-lg p-6 w-[400px]">
     <div class="mb-3">
@@ -546,7 +546,7 @@ $conn->close();
             <input type="hidden" id="eventTitle" name="eventTitle">
             <input type="hidden" id="eventStart" name="eventStart">
             <input type="hidden" id="eventEnd" name="eventEnd">
-           <!-- Hidden field to store event ID -->
+           
             <div class="flex justify-end">
                 <button type="submit" class="bg-violet-700 hover:bg-violet-800 text-white font-bold py-2 text-xs px-4 rounded">Book</button>
                 <button type="button" class="ml-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold text-xs py-2 px-4 rounded" onclick="closeBookingModal()">Cancel</button>
@@ -592,7 +592,7 @@ $conn->close();
                 <div class="info-cancel">
                     Cancellation not available for this venue
                 </div>
-            </div><!---m-ticket end---->
+            </div>
             
         </div>
         <div class="flex justify-center space-x-10 mt-4">
@@ -608,15 +608,15 @@ $conn->close();
         var ticketElement = document.getElementById("m-ticket");
         
         html2canvas(ticketElement).then(function(canvas) {
-            // Convert the canvas to an image
+           
             var imgData = canvas.toDataURL('image/png');
             
-            // Create a link element
+        
             var link = document.createElement('a');
             link.href = imgData;
             link.download = 'ticket.png';
             
-            // Trigger the download
+        
             link.click();
         });
     }
@@ -735,7 +735,6 @@ $conn->close();
     document.addEventListener('DOMContentLoaded', function() {
         fetchEvents();
 
-        // Add event listener to the search input
         document.getElementById('searchInput').addEventListener('input', filterEvents);
     });
 
@@ -751,7 +750,7 @@ $conn->close();
 
     function renderEvents(events) {
         const eventContainer = document.getElementById('eventContainer');
-        eventContainer.innerHTML = ''; // Clear existing events
+        eventContainer.innerHTML = ''; 
         events.forEach(event => {
             const card = createEventCard(event);
             eventContainer.appendChild(card);
@@ -761,7 +760,7 @@ $conn->close();
     function createEventCard(event) {
         const card = document.createElement('div');
         card.className = 'event-card border border-zinc-800 bg-zinc-800 rounded-lg p-1  w-52';
-        card.dataset.title = event.title.toLowerCase(); // Store title for filtering
+        card.dataset.title = event.title.toLowerCase(); 
         
         const image = document.createElement('img');
         image.src = event.image;
@@ -797,7 +796,7 @@ $conn->close();
         const participantCount = document.createElement('div');
         participantCount.className = 'text-gray-400 text-xs';
 
-        // Set the inner HTML with both the participant count and the icon
+
         participantCount.innerHTML = `
 
             <div class="flex space-x-5">
@@ -824,7 +823,7 @@ $conn->close();
 
         const joinButton = document.createElement('button');
         joinButton.className = 'bg-violet-700 hover:bg-gray-700 text-white text-xs p-3 shadow-[0_4px_10px_rgba(124,58,237,0.5)] rounded-full font-meduim';
-        joinButton.innerHTML = '<i class="fa-solid fa-arrow-right text-white font-bold "></i>'; // Add any additional text you want next to the icon
+        joinButton.innerHTML = '<i class="fa-solid fa-arrow-right text-white font-bold "></i>'; 
         joinButton.addEventListener('click', () => openBookingModal(event.id, event.image, event.title,event.start,event.end,event.description_text));
         participants.appendChild(joinButton);
 

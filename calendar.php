@@ -28,7 +28,7 @@ if ($result->num_rows > 0) {
 
 
 
-$sql = "SELECT * FROM games"; // Query to fetch games
+$sql = "SELECT * FROM games"; 
 $result = $conn->query($sql);
 
 $games = [];
@@ -38,16 +38,16 @@ if ($result->num_rows > 0) {
     }
 }
 
-// Check if userId is set in the session
+
 if(isset($_SESSION['userId'])) {
-    // Access user data from session
+   
     $userId = $_SESSION['userId'];
     $username = $_SESSION['username'];
     $imagePath = $_SESSION['imagePath'];
 } else {
-    // If userId is not set, redirect the user to the login page or handle the scenario accordingly
+    
     header("Location: login.php");
-    exit(); // Make sure to exit after redirection to prevent further execution
+    exit(); 
 }
 ?>
 
@@ -86,7 +86,7 @@ if(isset($_SESSION['userId'])) {
     font-family: 'MyCustomFont';
 }
 .character-spacing {
-    letter-spacing: 5px; /* Adjust the value as needed */
+    letter-spacing: 5px; 
     font-family: 'MyCustomFont2';
 }
 
@@ -99,21 +99,21 @@ if(isset($_SESSION['userId'])) {
             --fc-border-color: rgba(255, 255, 255, 0);
             --fc-daygrid-event-dot-width: 5px;
         }
-        /* Target the specific date elements */
+        
         .fc-day {
-            border: 1px solid #ccc; /* Example border styling */
-            border-radius: 5px; /* Example border radius */
+            border: 1px solid #ccc; 
+            border-radius: 5px; 
         }
 
-        /* Apply additional styling for today's date */
+     
         .fc-today {
-            background-color: #f0f0f0; /* Example background color */
+            background-color: #f0f0f0; 
         }
 
-        /* Apply styling for hovered dates */
+       
         .fc-day:hover {
-            background-color: #323232; /* Example background color on hover */
-            cursor: pointer; /* Change cursor to pointer on hover */
+            background-color: #323232; 
+            cursor: pointer; 
             color: #ffffff;
         }
         .fc .fc-daygrid-day.fc-day-today {
@@ -172,7 +172,7 @@ if(isset($_SESSION['userId'])) {
      
 
         .fc-daygrid-day-frame {
-            border-radius: 10px; /* Adjust the value as needed */
+            border-radius: 10px; 
             font-size: 13px;
             font-weight: bold;
         }
@@ -180,13 +180,13 @@ if(isset($_SESSION['userId'])) {
             height: 600px;
         }
         .fc-event {
-            background-color: #6510b0; /* Set the background color of the event */
-            color: #ffffff; /* Set the text color of the event */
-            border: 1px solid #5e687200; /* Set the border color and thickness of the event */
-            border-radius: 20px; /* Set the border radius to make the edges rounded */
-            padding: 10px; /* Add padding to the event to create space around the text */
+            background-color: #6510b0; 
+            color: #ffffff; 
+            border: 1px solid #5e687200; 
+            border-radius: 20px; 
+            padding: 10px; 
         }
-         /* Hide the default date picker icon */
+     
          input[type="date"]::-webkit-calendar-picker-indicator,
         input[type="time"]::-webkit-calendar-picker-indicator {
             opacity: 0;
@@ -206,7 +206,7 @@ if(isset($_SESSION['userId'])) {
         input[type="time"]::-moz-clear {
             display: none;
         }
-        /* Custom styles for the input fields */
+        
         .input-wrapper {
             position: relative;
             display: flex;
@@ -218,7 +218,7 @@ if(isset($_SESSION['userId'])) {
             top: 50%;
             transform: translateY(-50%);
             pointer-events: none;
-            color: #9ca3af; /* Tailwind gray-400 */
+            color: #9ca3af; 
         }
     </style>
     
@@ -247,7 +247,7 @@ if(isset($_SESSION['userId'])) {
     </nav>
     </header>
     <div class="flex">
-        <!-- Sidebar -->
+       
         <aside class="fixed-sidebar w-64 p-4 z-10">
             <nav>
                 <ul class="space-y-2 text-sm text-poppins">
@@ -265,7 +265,7 @@ if(isset($_SESSION['userId'])) {
             </nav>
         </aside>
 
-        <!-- Main Content -->
+        
         <main class="flex-1 p-6">
             <div id="calendar"></div>
         </main>
@@ -292,7 +292,7 @@ if(isset($_SESSION['userId'])) {
 
             <h1 class="text-sm font-bold mb-4 mt-4">Games</h1>
             
-            <!-- Games Logo Div with 3 Columns -->
+           
             <div class="grid grid-cols-3 gap-4">
             <?php foreach ($games as $game) : ?>
                 <a href="game.php?id=<?php echo $game['id']; ?>">
@@ -380,6 +380,9 @@ if(isset($_SESSION['userId'])) {
     
 
     <script>
+        function closeModal() {
+        document.getElementById('eventModal').classList.add('hidden');
+    }
 document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
 
@@ -436,11 +439,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function openModal() {
         document.getElementById('eventModal').classList.remove('hidden');
+        console.log('openModal');
     }
 
-    function closeModal() {
-        document.getElementById('eventModal').classList.add('hidden');
-    }
+    
 
     function showSuccessModal(message) {
         const successModal = document.getElementById('successModal');
@@ -449,7 +451,7 @@ document.addEventListener('DOMContentLoaded', function() {
         successModal.classList.remove('hidden');
         setTimeout(() => {
             successModal.classList.add('hidden');
-        }, 3000); // Show the success modal for 3 seconds
+        }, 3000); 
     }
 });
 </script>

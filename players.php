@@ -6,27 +6,26 @@ $username = "root";
 $password = "";
 $dbname = "event_management";
 
-// Create connection
+
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Check connection
+
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Check if userId is set in the session
+
 if(isset($_SESSION['userId'])) {
-    // Access user data from session
+
     $userId = $_SESSION['userId'];
     $username = $_SESSION['username'];
     $imagePath = $_SESSION['imagePath'];
 } else {
-    // If userId is not set, redirect the user to the login page or handle the scenario accordingly
     header("Location: login.php");
-    exit(); // Make sure to exit after redirection to prevent further execution
+    exit();
 }
 
-// Fetch users
+
 $sql = "SELECT * FROM users";
 $result = $conn->query($sql);
 
@@ -37,7 +36,7 @@ if ($result->num_rows > 0) {
     }
 }
 
-$sql = "SELECT * FROM games"; // Query to fetch games
+$sql = "SELECT * FROM games"; 
 $result = $conn->query($sql);
 
 $games = [];
@@ -60,7 +59,7 @@ if ($result->num_rows > 0) {
 }
 
 
-// Fetch bookings for each user
+
 for ($i = 0; $i < count($users); $i++) {
     $userId = $users[$i]['id'];
     $sql = "SELECT COUNT(*) as count FROM bookings WHERE user_id = $userId";
@@ -135,7 +134,7 @@ $conn->close();
             </nav>
         </aside>
     
-    <!-- Main content -->
+ 
     <main class="main-content content flex-1 p-6 mt-20 text-poppins relative rounded-lg shadow-lg mx-4 md:mx-auto max-w-4xl z-10">
     <div class="flex">
                 <div>
@@ -155,7 +154,7 @@ $conn->close();
                         <th class="border-b py-3 border-violet-900 text-start px-2">Username</th>
                         <th class="border-b py-3 border-violet-900 text-center px-2">Tournaments Joined</th>
                         <th class="border-b py-3 border-violet-900 text-start px-6">Winrate</th>
-                        <th class="border-b py-3 border-violet-900 text-start px-6">Winrate</th>
+                        <th class="border-b py-3 border-violet-900 text-start px-6">Points</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -166,13 +165,15 @@ $conn->close();
                                 <div class="flex justify-start items-center">
                                     <img src="<?php echo htmlspecialchars($user['profile_image']); ?>" alt="Profile Picture" class="h-9 w-9 rounded-full mr-2 border-2 shadow-sm  bg-violet-600 border-violet-800 object-cover">
                                     <?php echo htmlspecialchars($user['username']); ?>
+                                    <img src="<?php echo htmlspecialchars($user['rank']); ?>" alt="Profile Picture" class="h-3  ml-2  shadow-sm   object-cover">
+
                                 </div>
                             </td>
                             <td class="border-b border-violet-900  py-3 text-center"><?php echo $user['bookings']; ?></td>
                             <td class="border-b border-violet-900 px-4 py-3">
                                 <div class="flex items-center space-x-2 justify-between">
                                 <div class="text-right mt-1 text-gray-400 text-[10px]"><?php echo $user['winrate']; ?>%</div>
-                                <div class="relative w-full h-2 bg-zinc-900 rounded">
+                                <div class="relative w-full h-2 bg-zinc-950 rounded">
                                     <div class="absolute top-0 left-0 h-2 bg-green-500 rounded" style="width: <?php echo $user['winrate']; ?>%;"></div>
                                 </div>
                                 </div>
@@ -180,8 +181,8 @@ $conn->close();
                             </td>
                             <td class="border-b border-violet-900 px-4 py-3">
                                 <div class="flex items-center space-x-2 justify-between">
-                                <div class="text-right mt-1 text-gray-400 text-[10px]"><?php echo $user['winrate']; ?>%</div>
-                                <div class="relative w-full h-2 bg-zinc-600 rounded">
+                                <div class="text-right mt-1 text-gray-400 text-[10px]"><?php echo $user['score']; ?></div>
+                                <div class="relative w-full h-2 bg-zinc-950 rounded">
                                     <div class="absolute top-0 left-0 h-2 bg-yellow-600 rounded" style="width: <?php echo $user['winrate']; ?>%;"></div>
                                 </div>
                                 </div>
@@ -216,7 +217,7 @@ $conn->close();
 
         <h1 class="text-sm font-bold mb-4 mt-4">Games</h1>
         
-        <!-- Games Logo Div with 3 Columns -->
+
         <div class="grid grid-cols-3 gap-4">
             <?php foreach ($games as $game) : ?>
                 <a href="game.php?id=<?php echo $game['id']; ?>">

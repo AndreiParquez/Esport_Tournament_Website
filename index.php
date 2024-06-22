@@ -62,7 +62,7 @@
     }
 
     .logo b {
-            color: #ffff; /* Tailwind CSS violet-700 */
+            color: #ffff;
             text-shadow: 0 -40px 900px , 0 0 2px, 0 0 1em #7C3AED, 0 0 0.5em #7C3AED, 0 0 0.1em #7C3AED, 0 10px 3px #000;
         }
         .logo b span {
@@ -142,10 +142,14 @@
             </div>
         </div>
         
+        
 
     </div>
+    <p class="absolute top-[600px] left-[680px] text-xs text-zinc-700 font-bold">Developed by Andrei Parquez
+    <p class="absolute top-[617px] left-[722px] text-[9px] text-zinc-700">Final Project in ITEC106</p>
+    </p>
 
-    <!-- Loader -->
+    
     <div id="loader" class="fixed inset-0 bg-zinc-900   hidden">
     <div class="progress-loader">
     <div class="progress"></div>

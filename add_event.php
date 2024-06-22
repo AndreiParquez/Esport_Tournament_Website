@@ -3,10 +3,10 @@ $servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "event_management";
-// Create connection
+
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Check connection
+
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $start = $event_date . ' ' . $start_time;
     $end = $event_date . ' ' . $end_time;
 
-    // Prepare and bind
+
     $stmt = $conn->prepare("INSERT INTO events (title, start, end) VALUES (?, ?, ?)");
     $stmt->bind_param("sss", $title, $start, $end);
 
